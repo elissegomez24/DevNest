@@ -1,45 +1,103 @@
-const { Profile } = require('../models');
+const { User, Job, Post } = require('../models');
+const mongoose = require('mongoose');
 
 const resolvers = {
-  // Important for useQuery: The resolver matches the typeDefs entry point and informs the request of the relevant data
   Query: {
-    profiles: async () => {
-      return Profile.find();
+    User: async () => {
+      const users = await User.find({}).populate('jobs');
+      return users.map(user => ({
+        ...user.toObject(),
+        jobs: user.jobs || []
+      }));
     },
-
-    // Important for Query Variables: Each query resolver function can accept up to four parameters.
-    // The second parameter, commonly referred to as "args," represents the variable argument values passed with the query.
-    // It is always an object, and in this case, we are destructuring that object to retrieve the profileId value.
-    profile: async (parent, { profileId }) => {
-      return Profile.findOne({ _id: profileId });
+    oneUser: async (parent, { UserId }) => {
+      return User.findOne({ _id: UserId });
+    },
+    Job: async () => {
+      const data = Job.find({});
+      console.log(data);
+      return Job.find({});
+    },
+    OneJob: async (parent, { jobId }) => {
+      console.log(job);
+      return Job.findOne({ _id: jobId });
     },
   },
-  // Important for useMutation: The resolver matches the typeDefs entry point and informs the request of the relevant data
   Mutation: {
-    addProfile: async (parent, { name }) => {
-      return Profile.create({ name });
-    },
-    addSkill: async (parent, { profileId, skill }) => {
-      return Profile.findOneAndUpdate(
-        { _id: profileId },
-        {
-          $addToSet: { skills: skill },
-        },
-        {
-          new: true,
-          runValidators: true,
+    addUser: async (parent, { userName, password }) => {
+      try {
+        const existingUser = await User.findOne({ userName });
+        if (existingUser) {
+          throw new Error('Username already exists');
         }
-      );
+        const newUser = new User({ userName, password });
+        const savedUser = await newUser.save();
+        return savedUser;
+      } catch (error) {
+        console.error('Error adding user:', error);
+        throw new Error(`Failed to add user: ${error.message}`);
+      }
     },
-    removeProfile: async (parent, { profileId }) => {
-      return Profile.findOneAndDelete({ _id: profileId });
+    addSkill: async (parent, { UserId, skill }) => {
+      try {
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: UserId },
+          { $addToSet: { skills: skill } },
+          { new: true, runValidators: true }
+        );
+        
+        if (!updatedUser) {
+          throw new Error('User not found');
+        }
+        
+        return updatedUser;
+      } catch (error) {
+        throw new Error(`Failed to add skill: ${error.message}`);
+      }
     },
-    removeSkill: async (parent, { profileId, skill }) => {
-      return Profile.findOneAndUpdate(
-        { _id: profileId },
+    removeSkill: async (parent, { UserId, skill }) => {
+      return User.findOneAndUpdate(
+        { _id: UserId },
         { $pull: { skills: skill } },
         { new: true }
       );
+    },
+    addJobToUser: async (parent, { userId, jobId }) => {
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        { $addToSet: { jobs: jobId } },
+        { new: true, runValidators: true }
+      ).populate('jobs');
+    
+      if (!updatedUser) {
+        throw new Error('User not found');
+      }
+    
+      return {
+        ...updatedUser.toObject(),
+        jobs: updatedUser.jobs || []
+      };
+    },
+    removeJobFromUser: async (parent, { userId, jobId }) => { 
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: userId },
+        { $pull: { jobs: jobId } },
+        { new: true }
+      ).populate('jobs');
+    
+      if (!updatedUser) {
+        throw new Error('User not found');
+      }
+
+      const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
+    
+      return {
+        ...updatedUser.toObject(),
+        jobs: updatedUser.jobs || []
+      };
+    },
+    addPost: async (parent, { title, text }) => {
+      return Post.create({ title, text });
     },
   },
 };

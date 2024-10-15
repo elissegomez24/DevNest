@@ -1,24 +1,24 @@
 const { Schema, model } = require('mongoose');
 
-const jobSchema = new Schema({
+const postSchema = new Schema({
   
-  name: {
+  title: {
     type: String,
     required: true,
     unique: true,
     trim: true,
   },
-  description:  { 
+  text:  { 
     type: String,
     required: true,
   },
-  pay: {
-    type: Number,
-    required: true,
+  user: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
   }
   
 });
 
-const Job = model('Job', jobSchema);
+const Post = model('Post', postSchema);
 
-module.exports = Job;
+module.exports = Post;

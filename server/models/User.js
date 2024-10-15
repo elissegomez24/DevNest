@@ -1,12 +1,12 @@
 const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
-  id: {
-    type: Number,
-    required: true,
-    unique: true,
-    autoIncrement: true,
+
+  _id: {
+    type: Schema.Types.ObjectId,
+    auto: true
   },
+  
   userName: {
     type: String,
     required: true,
@@ -24,13 +24,22 @@ const userSchema = new Schema({
       trim: true,
     },
   ],
-  jobs: [
+  jobs:[ 
     {
       type: Schema.Types.ObjectId,
       ref: 'Job',
+      default: [] 
+    },
+  ],
+  posts: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'post',
     },
   ],
 });
+
+
 
 const User = model('User', userSchema);
 
