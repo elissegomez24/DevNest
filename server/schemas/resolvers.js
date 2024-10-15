@@ -31,6 +31,7 @@ const resolvers = {
           throw new Error('Username already exists');
         }
         const newUser = new User({ userName, password });
+        console.log(newUser);
         const savedUser = await newUser.save();
         return savedUser;
       } catch (error) {
