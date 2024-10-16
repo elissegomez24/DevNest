@@ -1,11 +1,32 @@
-form{
+h1 {
+    text-align: center;
+    font-size: 200%;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin: auto; /* Center horizontally */
+    border: 1px solid gray;
+    border-radius: 25px;
+    text-align: center;
+    width: 50%;
+    max-width: 500px; /* Set a max width if needed */
+}
+
+.form-group {
     display: flex;
     flex-direction: column;
     text-align: center;
+    padding-top: 10%;
+}
+
+button {
+    padding-top: 10%;
 }
 
 input {
     border: 1px solid gray;
-    width: 25%;
-    justify-content: center;
+    width: 100%;
+    text-align: center;
 }
