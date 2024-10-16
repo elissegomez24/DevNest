@@ -46,11 +46,11 @@ const resolvers = {
           { $addToSet: { skills: skill } },
           { new: true, runValidators: true }
         );
-        
+
         if (!updatedUser) {
           throw new Error('User not found');
         }
-        
+
         return updatedUser;
       } catch (error) {
         throw new Error(`Failed to add skill: ${error.message}`);
@@ -69,29 +69,29 @@ const resolvers = {
         { $addToSet: { jobs: jobId } },
         { new: true, runValidators: true }
       ).populate('jobs');
-    
+
       if (!updatedUser) {
         throw new Error('User not found');
       }
-    
+
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
       };
     },
-    removeJobFromUser: async (parent, { userId, jobId }) => { 
+    removeJobFromUser: async (parent, { userId, jobId }) => {
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $pull: { jobs: jobId } },
         { new: true }
       ).populate('jobs');
-    
+
       if (!updatedUser) {
         throw new Error('User not found');
       }
 
       const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
-    
+
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
