@@ -2,6 +2,7 @@
 import { Outlet } from 'react-router-dom';
 import Nav from './components/NavTabs';
 import './index.css';
+import './App.css';
 
 
 function App() {
