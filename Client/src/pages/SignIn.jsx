@@ -3,9 +3,11 @@ import './signin.css';
 export default function SignIn() {
   return (
     <div className='lin'>
+
       <div>
         <h1>Profile</h1>
       </div>
+
       <div className='login'>
         <form>
 
@@ -18,10 +20,17 @@ export default function SignIn() {
             <label htmlFor="password">Password: (********)</label>
             <input type="password" id="password" name="password" />
           </div>
-          
-          <button type="submit">Submit</button>
+
+          <button className='in' type="submit">Sign-in</button>
+
         </form>
       </div>
+
+      <div className='signup'>
+        <p>Don`t have an account? </p>
+        <button className='up'>Sign-up</button>
+      </div>
+
     </div>
   );
 }

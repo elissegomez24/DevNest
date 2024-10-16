@@ -1,6 +1,8 @@
 h1 {
     text-align: center;
-    font-size: 200%;
+    font-size: 300%;
+    margin-bottom: 2%;
+    font-weight: 500;
 }
 
 .login {
@@ -12,21 +14,32 @@ h1 {
     text-align: center;
     width: 50%;
     max-width: 500px; /* Set a max width if needed */
+    font-size: 150%;
 }
 
 .form-group {
     display: flex;
     flex-direction: column;
     text-align: center;
-    padding-top: 10%;
+    padding-top: 5%;
+    padding-bottom: 10%;
 }
 
-button {
-    padding-top: 10%;
+.up, .in {
+    border: 1px solid gray;
+    border-radius: 25px;
+    background-color: blue;
+    margin-bottom: 5%;
 }
 
 input {
     border: 1px solid gray;
     width: 100%;
     text-align: center;
+}
+
+.signup{
+    text-align: center;
+    padding-top: 8%;
+    font-size: 150%;
 }
