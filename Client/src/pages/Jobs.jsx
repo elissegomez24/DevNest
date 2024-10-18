@@ -1,6 +1,8 @@
 import { useQuery, gql } from "@apollo/client";
 import { useParams } from "react-router-dom";
 
+
+// GraphQL query to get job details by ID
 const GET_JOB = gql`
   query GetJob($jobId: ID!) {
     job(id: $jobId) {
@@ -13,16 +15,19 @@ const GET_JOB = gql`
 `;
 
 export default function Job() {
-  const { jobId } = useParams();
+  const { jobId } = useParams(); // Get jobId from URL parameters
   const { loading, error, data } = useQuery(GET_JOB, {
-    variables: { jobId },
+    variables: { jobId }, // Pass the jobId to the query as a variable
   });
 
   return (
     <div>
       <h1>Job Details</h1>
-      <p>Welcome to the Job Details Page. Here you can find details about the selected position.</p>
-      
+      <p>
+        Welcome to the Job Details Page. Here you can find details about the
+        selected position.
+      </p>
+
       <section className="job" id="job">
         {loading ? (
           <p>Loading job...</p>
