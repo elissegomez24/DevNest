@@ -9,6 +9,8 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Profile from './pages/Profile';
 import Jobs from './pages/Jobs';
+import SignUp from './pages/signup';
+
 
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
@@ -32,6 +34,10 @@ const router = createBrowserRouter([
       {
         path: '/SignIn',
         element: <SignIn />,
+      },
+      {
+        path: '/Signup',
+        element: <SignUp />,
       },
     ],
   },

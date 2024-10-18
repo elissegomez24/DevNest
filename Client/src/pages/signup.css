@@ -1,0 +1,21 @@
+form {
+    display: flex;
+    flex-direction: column;
+    border: solid 3px gray;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 500px;
+    margin: auto;
+}
+
+input {
+    width: 50%;
+    margin: auto;
+}
+
+button {
+    border: 1px solid gray;
+    border-radius: 25px;
+    background-color: blue;
+    margin: auto;
+}

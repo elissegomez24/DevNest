@@ -5,7 +5,7 @@ export default function SignIn() {
     <div className='lin'>
 
       <div>
-        <h1>Profile</h1>
+        <h1>Login</h1>
       </div>
 
       <div className='login'>
