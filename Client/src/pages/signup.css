@@ -13,7 +13,7 @@ input {
     margin: auto;
 }
 
-button {
+.signin {
     border: 1px solid gray;
     border-radius: 25px;
     background-color: blue;
