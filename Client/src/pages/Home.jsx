@@ -1,26 +1,49 @@
 
 import { Link, useLocation } from 'react-router-dom';
 import React, { useState } from 'react';
-import { Button } from "@material-tailwind/react";
+import PostCards from "../components/PostCards"
 
 
 'use client'
 
-export default function Home() {
-  const [inputValue, setInputValue] = useState("Some initial value");
 
-  const handleInputChange = (event) => {
-    setInputValue(event.target.value);
+export default function Home() {
+  
+
+  const [posts, setPosts] = useState([
+    {
+      _id: "1",
+      Img: "/devpfp1.PNG",
+      Title: "title",
+      Text: "I just got a new job!!!",
+      user: "Aden"
+    },
+    {
+      _id: "2",
+      Img: "/devpfp2.PNG",
+      Title: "title",
+      Text: "bmfbhjgbnfoijgurjbrf",
+      user: "Abigail"
+    }
+  ]);
+
+  const addPost = (event) => {
+    event.preventDefault();
+    const title = event.target.Title.value;
+    const text = event.target.Text.value;
+    const newPost = {
+      _id: Date.now().toString(),
+      Img: "/defaultpfp.PNG",
+      Title: title,
+      Text: text,
+      user: "Current User" // You might want to replace this with the actual logged-in user
+    };
+    setPosts([newPost, ...posts]);
+    event.target.reset();
   };
 
-  function publish(formData) {
-    const content = formData.get("content");
-    const button = formData.get("button");
-    alert(`'${content}' was published with the '${button}' button`);
-  }
   return (
     <>
-    
     <div className="relative isolate px-6 pt-14 lg:px-8">
       <div
         aria-hidden="true"
@@ -47,7 +70,7 @@ export default function Home() {
           </p>
           
         </div>
-
+        
       </div>
       
       <div
@@ -62,8 +85,7 @@ export default function Home() {
           className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
         />
       </div>
-    </div>
-    <hr />
+      <hr></hr>
     <div className="text-center mb-10 mt-11">
           <h1 className="text-balance text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
             Start Your New Career Now
@@ -76,64 +98,64 @@ export default function Home() {
               to="/Jobs"
               className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Find Developer Jobs!
+              Developer Job Board!
             </Link>
           </div>
           
     <hr />
     <div>
+    </div>
+    <hr />
 
-    <div className="text-center mb-10">
+    <div className="text-center p-10 mt-10 mb-10">
           <h1 className="text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Share Your Thoughts With The World
           </h1>
     </div>
       {/* input */}
-      <section>
-      
+      <div className="flex justify-center items-center">
+  <div className="w-full max-w-md">
+    <form onSubmit={addPost}>
+    <label htmlFor="Title" className="block text-sm font-medium leading-6 text-gray-900 text-center">
+  Title:
+</label>
+<div className="relative mt-2 rounded-md shadow-sm">
+  <input
+    id="Title"
+    name="Title"
+    type="text"
+    placeholder="Enter your title"
+    className="block w-full rounded-md border-0 py-1.5 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+  />
+</div>
 
-      <form action={publish}>
-        <label htmlFor="Title" className="block text-sm font-medium leading-6 text-gray-900">
-        Title:
-      </label>
-      <div className="relative mt-2 rounded-md shadow-sm ">
-        <input
-          id="Title"
-          name="Title"
-          type="text"
-          placeholder="Post Title"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        />
-      </div>
-
-
-      <label htmlFor="Title" className="block text-sm font-medium leading-6 text-gray-900">
-        Text:
-      </label>
-      <div className="relative mt-2 rounded-md shadow-sm ">
-        <input
-          id="Title"
-          name="Title"
-          type="text"
-          placeholder="Post Title"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        />
-      </div>
-      <br />
-      <div className="mt-1 flex items-center justify-start gap-x-6">
-            <a
-              href="/Jobs"
-              className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Post
-            </a>
-          </div>
+<label htmlFor="Text" className="block text-sm font-medium leading-6 text-gray-900 text-center mt-4">
+  Text:
+</label>
+<div className="relative mt-2 rounded-md shadow-sm">
+  <textarea
+    id="Text"
+    name="Text"
+    placeholder="Share your thoughts..."
+    rows="4"
+    className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+  ></textarea>
+</div>
+<div className="mt-6 mb-16 flex items-center justify-center">
+  <button
+    type="submit"
+    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+  >
+    Post
+  </button>
+</div>
     </form>
-      </section>
-
+  </div>
+</div>
+      
       {/* posts */}
       <section>
-        
+      <PostCards posts={posts}/>
       </section>
     </div>
     </>
