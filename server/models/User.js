@@ -2,7 +2,10 @@ const { Schema, model } = require('mongoose');
 
 const userSchema = new Schema({
 
-
+  pfp: {
+    type: String,
+    default: '/defaultpfp.PNG' // You can set a default image
+  },
   
   userName: {
     type: String,

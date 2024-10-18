@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 :root {
   --primary-color: #cddc39;
+=======
+
+:root{
+  --primary-color: #5464FF;
+>>>>>>> 3fb1994c0d5f30b4f37936687f5338c57c11d94f
   --secondary-color: #000000;
 }
 .nav-container {
