@@ -1,10 +1,9 @@
 import { useQuery, gql } from "@apollo/client";
-import { useParams } from "react-router-dom"; // If using react-router for routing
+import { useParams } from "react-router-dom";
 
-// GraphQL query to fetch a single job
 const GET_JOB = gql`
-  query Query($jobId: ID!) {
-    OneJob(jobId: $jobId) {
+  query GetJob($jobId: ID!) {
+    job(id: $jobId) {
       _id
       name
       description
@@ -14,32 +13,29 @@ const GET_JOB = gql`
 `;
 
 export default function Job() {
-  const { jobId } = useParams(); // Get jobId from URL parameters
+  const { jobId } = useParams();
   const { loading, error, data } = useQuery(GET_JOB, {
-    variables: { jobId }, // Pass jobId as a variable
+    variables: { jobId },
   });
 
   return (
     <div>
-      {/* Job Page Intro Section */}
       <h1>Job Details</h1>
       <p>Welcome to the Job Details Page. Here you can find details about the selected position.</p>
       
-      {/* Job Section Design */}
       <section className="job" id="job">
         {loading ? (
           <p>Loading job...</p>
         ) : error ? (
           <p>Error loading job: {error.message}</p>
-        ) : data.OneJob ? ( // Check if OneJob exists
-          <div className="job-box" key={data.OneJob._id}>
+        ) : data?.job ? (
+          <div className="job-box" key={data.job._id}>
             <div className="job-info">
-              <h4>{data.OneJob.name}</h4>
-              <p>{data.OneJob.description}</p>
-              <p>Pay: ${data.OneJob.pay}</p>
+              <h4>{data.job.name}</h4>
+              <p>{data.job.description}</p>
+              <p>Pay: ${data.job.pay}</p>
             </div>
             <div className="job-links">
-              {/* Replace with job-specific links */}
               <a href="#apply" aria-label="Apply for Job">
                 <i className="bx bx-link-external"></i> Apply
               </a>
@@ -49,7 +45,7 @@ export default function Job() {
             </div>
           </div>
         ) : (
-          <p>No job found</p> // Handle case where no job is returned
+          <p>No job found</p>
         )}
       </section>
     </div>
