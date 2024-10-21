@@ -9,7 +9,7 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch('/api/user/profile', {
+        const response = await fetch('/utils/profile', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
