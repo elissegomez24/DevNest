@@ -22,6 +22,11 @@ const resolvers = {
       console.log(job);
       return Job.findOne({ _id: jobId });
     },
+    Post: async () => {
+      const data = await Post.find({});
+      console.log(data);
+      return data;
+    },
   },
   Mutation: {
     addUser: async (parent, { userName, password }) => {
@@ -98,8 +103,22 @@ const resolvers = {
       };
     },
     addPost: async (parent, { title, text }) => {
-      return Post.create({ title, text });
-    },
+      try {
+        const newPost = new Post({
+          title,
+          text,
+          user: {
+            userName: "Anonymous User",
+            pfp: "/defaultpfp.PNG"
+          }
+        });
+        const savedPost = await newPost.save();
+        return savedPost;
+      } catch (error) {
+        console.error('Error adding post:', error);
+        throw new Error(`Failed to add post: ${error.message}`);
+      }
+    }
   },
 };
 

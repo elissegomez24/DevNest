@@ -1,6 +1,7 @@
 const typeDefs = `
   type User {
     _id: ID
+    pfp: String
     userName: String
     password: String!
     skills: [String]!

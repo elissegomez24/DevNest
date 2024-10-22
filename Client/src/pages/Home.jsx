@@ -1,45 +1,86 @@
 
-import { Link, useLocation } from 'react-router-dom';
-import React, { useState } from 'react';
+
+import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
+import {  useQuery, useMutation } from '@apollo/client';
+import { gql } from '@apollo/client';
 
 
 'use client'
 
-
-  
-
-  const [posts, setPosts] = useState([
-    {
-      _id: "1",
-      Img: "/devpfp1.PNG",
-      Title: "title",
-      Text: "I just got a new job!!!",
-      user: "Aden"
-    },
-    {
-      _id: "2",
-      Img: "/devpfp2.PNG",
-      Title: "title",
-      Text: "bmfbhjgbnfoijgurjbrf",
-      user: "Abigail"
+const ADD_POST = gql`
+  mutation addPost($title: String!, $text: String!) {
+    addPost(title: $title, text: $text) {
+      _id
+      title
+      text
+      user {
+        userName
+        pfp
+      }
     }
-  ]);
+  }
+`;
 
-  const addPost = (event) => {
+const GET_POST = gql`
+query Query {
+  Post {
+    _id
+    text
+    title
+  }
+}
+`;
+
+
+
+export default function Home() {
+  const { loading, error, data } = useQuery(GET_POST);
+  
+  const [addPostMutation] = useMutation(ADD_POST);
+  const [posts, setPosts] = useState([]);
+  const addPost = async (event) => {
     event.preventDefault();
     const title = event.target.Title.value;
     const text = event.target.Text.value;
-    const newPost = {
-      _id: Date.now().toString(),
-      Img: "/defaultpfp.PNG",
-      Title: title,
-      Text: text,
-      user: "Current User" // You might want to replace this with the actual logged-in user
-    };
-    setPosts([newPost, ...posts]);
-    event.target.reset();
+  
+    try {
+      const { data } = await addPostMutation({
+        variables: { title, text },
+      });
+      console.log('New post added to server:', data.addPost);
+      
+      const newPost = {
+        _id: data.addPost._id,
+        title: data.addPost.title,
+        text: data.addPost.text,
+        user: {
+          userName: "Current User", // You might want to replace this with actual user data
+          pfp: "/defaultpfp.PNG"
+        }
+      };
+  
+      setPosts([newPost, ...posts]);
+      event.target.reset();
+    } catch (error) {
+      console.error('Error adding post:', error);
+    }
   };
+
+  useEffect(() => {
+    if (data && data.Post) {
+      setPosts(data.Post.map(post => ({
+        _id: post._id,
+        title: post.title,
+        text: post.text,
+        user: {
+          userName: "User",
+          pfp: "/defaultpfp.PNG"
+        }
+      })));
+    }
+  }, [data]);
+  
 
   return (
     <>
@@ -58,7 +99,7 @@ import PostCards from "../components/PostCards"
             Welcome to DevNest
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
-            A job hub for developers like you
+            A job hub for developers like <span className='underline'>you</span> 
           </p>
           
         </div>
@@ -137,6 +178,8 @@ import PostCards from "../components/PostCards"
 </div>
       
       {/* posts */}
+      {loading && <p>Loading posts...</p>}
+      {error && <p>Error loading posts: {error.message}</p>}
       <section>
       <PostCards posts={posts}/>
       </section>

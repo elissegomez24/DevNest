@@ -21,14 +21,16 @@ function NavTabs({loggedIn}) {
     <header className="absolute inset-x-0 top-0 z-50 bg-teal-600 rounded-b-xl">
       <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
         <div className="flex lg:flex-1">
+          
           <a href="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">Your Company</span>
+            <span className="sr-only">DevNest</span>
             <img
               alt=""
               src="/DevNestLogo.PNG"
               className="h-10 w-auto"
             />
           </a>
+          <h1>DevNest</h1>
         </div>
         <div className="flex lg:hidden">
           <button

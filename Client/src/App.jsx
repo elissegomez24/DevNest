@@ -1,6 +1,6 @@
-// Bringing in the required import from 'react-router-dom'
 import { Outlet } from 'react-router-dom';
 import Nav from './components/NavTabs';
+import DevNestFooter from './components/Footer';
 import './index.css';
 import './App.css';
 
@@ -13,6 +13,7 @@ function App() {
       <main className="mx-3">
         <Outlet />
       </main>
+    <DevNestFooter />
     </>
   );
 }
