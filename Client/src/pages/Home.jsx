@@ -7,7 +7,6 @@ import PostCards from "../components/PostCards"
 'use client'
 
 
-export default function Home() {
   
 
   const [posts, setPosts] = useState([
