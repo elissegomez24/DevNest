@@ -1,11 +1,15 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+<<<<<<< HEAD
 const mongoose = require('mongoose');
 
 const { ApolloServer } = require('@apollo/server');
 const { authMiddleware } = require('./utils/auth');
 const { expressMiddleware } = require('@apollo/server/express4');
+=======
+const cors = require('cors');
+>>>>>>> be3cb93558d99ce6549875bd1fd2ae0348c606cb
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
@@ -17,6 +21,9 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 const startApolloServer = async () => {
   await server.start();
   console.log("Apollo Server started");

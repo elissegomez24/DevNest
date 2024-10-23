@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-// Bringing in the required imports from 'react-router-dom' to set up application routing behavior
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
@@ -10,6 +10,11 @@ import SignIn from './pages/SignIn';
 import Profile from './pages/Profile';
 import Jobs from './pages/Jobs';
 
+
+const client = new ApolloClient({
+  uri: 'http://localhost:3001/graphql', // Replace with your actual GraphQL API endpoint
+  cache: new InMemoryCache()
+});
 // Define the accessible routes, and which components respond to which URL
 const router = createBrowserRouter([
   {
@@ -38,5 +43,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
+  <ApolloProvider client={client}>
   <RouterProvider router={router} />
+</ApolloProvider>
 );

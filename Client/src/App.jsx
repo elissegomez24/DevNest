@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import './App.css';
+=======
+import { Outlet } from 'react-router-dom';
+import Nav from './components/NavTabs';
+import DevNestFooter from './components/Footer';
+>>>>>>> be3cb93558d99ce6549875bd1fd2ae0348c606cb
 import './index.css';
 import { Outlet } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
@@ -12,6 +18,7 @@ const client = new ApolloClient({
 
 function App() {
   return (
+<<<<<<< HEAD
     <ApolloProvider client={client}>
       <>
         <Nav />
@@ -20,6 +27,15 @@ function App() {
         </main>
       </>
     </ApolloProvider>
+=======
+    <>
+      <Nav />
+      <main className="mx-3">
+        <Outlet />
+      </main>
+    <DevNestFooter />
+    </>
+>>>>>>> be3cb93558d99ce6549875bd1fd2ae0348c606cb
   );
 }
 
