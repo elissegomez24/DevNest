@@ -1,12 +1,18 @@
 import { gql } from "@apollo/client";
 
-const GET_JOB = gql`
-  query GetJob($jobId: ID!) {
-    job(id: $jobId) {
-      _id
-      name
-      description
-      pay
-    }
+export const GET_JOB = gql`
+query User {
+  User {
+    _id
+    userName
   }
+}
+  query Job {
+  Job {
+    _id
+    name
+    description
+    pay
+  }
+}
 `;

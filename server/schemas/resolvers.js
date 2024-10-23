@@ -97,8 +97,20 @@ const resolvers = {
         jobs: updatedUser.jobs || []
       };
     },
-    addPost: async (parent, { title, text }) => {
-      return Post.create({ title, text });
+    addPost: async (parent, { title, text }, context) => {
+      // Ensure the user is logged in
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to create a post');
+      }
+
+      // Create the post with the associated user
+      const post = await Post.create({
+        title,
+        text,
+        user: context.user._id,
+      });
+
+      return post;
     },
   },
 };

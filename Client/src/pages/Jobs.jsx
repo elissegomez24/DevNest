@@ -1,11 +1,20 @@
-import { useQuery, gql } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
+import { gql } from "@apollo/client";
 
+// Separate the queries into two distinct constants
+export const GET_USER = gql`
+  query User {
+    User {
+      _id
+      userName
+    }
+  }
+`;
 
-// GraphQL query to get job details by ID
-const GET_JOB = gql`
-  query GetJob($jobId: ID!) {
-    job(id: $jobId) {
+export const GET_JOB = gql`
+  query Job {
+    Job {
       _id
       name
       description
@@ -16,18 +25,19 @@ const GET_JOB = gql`
 
 export default function Job() {
   const { jobId } = useParams(); // Get jobId from URL parameters
+
+  // Use only one query in useQuery hook
   const { loading, error, data } = useQuery(GET_JOB, {
     variables: { jobId }, // Pass the jobId to the query as a variable
   });
 
   return (
     <div>
+      {/* Job Page Intro Section */}
       <h1>Job Details</h1>
-      <p>
-        Welcome to the Job Details Page. Here you can find details about the
-        selected position.
-      </p>
+      <p>Welcome to the Job Details Page. Here you can find details about the selected position.</p>
 
+      {/* Job Section Design */}
       <section className="job" id="job">
         {loading ? (
           <p>Loading job...</p>
@@ -41,6 +51,7 @@ export default function Job() {
               <p>Pay: ${data.job.pay}</p>
             </div>
             <div className="job-links">
+              {/* Replace with job-specific links */}
               <a href="#apply" aria-label="Apply for Job">
                 <i className="bx bx-link-external"></i> Apply
               </a>
@@ -50,7 +61,7 @@ export default function Job() {
             </div>
           </div>
         ) : (
-          <p>No job found</p>
+          <p>No job found</p> // Handle case where no job is returned
         )}
       </section>
     </div>
