@@ -1,6 +1,5 @@
-
-:root{
-  --primary-color: #cddc39;
+:root {
+  --primary-color: #5464ff;
   --secondary-color: #000000;
 }
 .nav-container {
@@ -22,9 +21,75 @@
   font-weight: bold;
 }
 
-.navBar{
+.navBar {
   background-color: var(--primary-color);
 }
 
+/* Jobs Section */
+.jobs {
+  padding: 50px;
+  background-color: #f9f9f9;
+}
 
+.jobs .heading {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+}
 
+.jobs .heading span {
+  color: #007bff;
+}
+
+.jobs-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.job-box {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  max-width: 300px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.job-box:hover {
+  transform: translateY(-10px);
+}
+
+.job-info h4 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.job-info p {
+  color: #666;
+}
+
+.job-links {
+  margin-top: 15px;
+}
+
+.job-links a {
+  text-decoration: none;
+  margin-right: 10px;
+  color: #007bff;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.job-links a:hover {
+  color: #0056b3;
+}
+
+.bx {
+  font-size: 20px;
+  margin-right: 5px;
+}
