@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+
 
 
 
@@ -8,29 +8,25 @@ import { useState } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 
-const navigation = [
-  
-]
+
 
 function NavTabs({loggedIn}) {
-  const currentPage = useLocation().pathname;
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   return (
     <div className="bg-white ">
-    <header className="absolute inset-x-0 top-0 z-50 bg-teal-600 rounded-b-xl">
-      <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
+    <header className="absolute inset-x-0 top-0 z-50 bg-black rounded-b-xl">
+      <nav aria-label="Global" className="flex items-center justify-between lg:px-8">
         <div className="flex lg:flex-1">
           
-          <a href="/" className="-m-1.5 p-1.5">
+          <a href="/" className="-m-6 ">
             <span className="sr-only">DevNest</span>
             <img
-              alt=""
-              src="/DevNestLogo.PNG"
-              className="h-10 w-auto"
+              alt="DevNest Logo"
+              src="/Logo.png"
+              className="h-40 w-auto"
             />
           </a>
-          <h1>DevNest</h1>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -42,15 +38,9 @@ function NavTabs({loggedIn}) {
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
         </div>
-        <div className="hidden lg:flex lg:gap-x-12">
-          {navigation.map((item) => (
-            <a key={item.name} href={item.href} className="text-sm font-semibold leading-6 text-gray-900">
-              {item.name}
-            </a>
-          ))}
-        </div>
+        
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="/SignIn" className="text-sm font-semibold leading-6 text-gray-900">
+          <a href="/SignIn" className="text-sm font-semibold leading-6 text-white">
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
         </div>
@@ -78,21 +68,11 @@ function NavTabs({loggedIn}) {
           </div>
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
-              <div className="space-y-2 py-6">
-                {navigation.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
-                  >
-                    {item.name}
-                  </a>
-                ))}
-              </div>
+            
               <div className="py-6">
                 <a
                   href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-white hover:bg-gray-50"
                 >
                   Log in
                 </a>

@@ -81,7 +81,6 @@ export default function Home() {
     }
   }, [data]);
   
-
   return (
     <>
     <div className="relative isolate px-6 pt-14 lg:px-8">
@@ -113,7 +112,7 @@ export default function Home() {
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">The Worlds First Developer Focued Job Hub</h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Here at DevNest we focus on helping you start your new career and connect with your community.</p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="/Jobs" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+            <a href="/Jobs" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-slate-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Job board
                 <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -138,9 +137,9 @@ export default function Home() {
     </div>
       {/* input */}
       <div className="flex justify-center items-center">
-  <div className="w-full max-w-md border-2 p-5 mb-9 bg-teal-600">
+  <div className="w-full max-w-md p-5 mb-9 bg-slate-700 rounded-xl border-2 border-slate-900">
     <form onSubmit={addPost}>
-    <label htmlFor="Title" className="block text-sm font-medium leading-6 text-gray-900 text-center">
+    <label htmlFor="Title" className="block text-sm font-medium leading-6 text-white text-center">
   Title:
 </label>
 <div className="relative mt-2 rounded-md shadow-sm">
@@ -153,7 +152,7 @@ export default function Home() {
   />
 </div>
 
-<label htmlFor="Text" className="block text-sm font-medium leading-6 text-gray-900 text-center mt-4">
+<label htmlFor="Text" className="block text-sm font-medium leading-6 text-white text-center mt-4">
   Text:
 </label>
 <div className="relative mt-2 rounded-md shadow-sm">
@@ -168,7 +167,7 @@ export default function Home() {
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
     type="submit"
-    className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+    className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
     Post
   </button>
