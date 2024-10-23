@@ -1,6 +1,9 @@
-const typeDefs = `
+const { gql } = require('apollo-server-express');
+
+const typeDefs = gql`
   type User {
     _id: ID
+    pfp: String
     userName: String
     password: String!
     skills: [String]!
@@ -22,8 +25,14 @@ const typeDefs = `
   user:  User!
   }
 
+type Auth {
+  token: ID!
+  user: User
+}
+
   # Important for useQuery: We define our Query type to inform our entry points
   # The Query type is built-in to GraphQL, so we only need to extend it to include which kinds of information we plan to request in our application
+
   type Query {
     User: [User]!
     oneUser(user: ID!): User
@@ -36,15 +45,13 @@ const typeDefs = `
   }
 
   # Important for useMutation: We define our Mutation type to inform our entrypoints
+
   type Mutation {
     addUser(userName: String!, password: String!): User
-
     addSkill(UserId: ID!, skill: String!): User
     removeSkill(UserId: ID!, skill: String!): User
-
     addJobToUser(userId: ID!, jobId: ID!): User
     removeJobFromUser(userId: ID!, jobId: ID!): User
-
     addPost(title: String!, text: String! ): Post
   }
 `;

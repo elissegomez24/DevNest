@@ -22,6 +22,11 @@ const resolvers = {
       console.log(job);
       return Job.findOne({ _id: jobId });
     },
+    Post: async () => {
+      const data = await Post.find({});
+      console.log(data);
+      return data;
+    },
   },
   Mutation: {
     addUser: async (parent, { userName, password }) => {
@@ -46,11 +51,11 @@ const resolvers = {
           { $addToSet: { skills: skill } },
           { new: true, runValidators: true }
         );
-        
+
         if (!updatedUser) {
           throw new Error('User not found');
         }
-        
+
         return updatedUser;
       } catch (error) {
         throw new Error(`Failed to add skill: ${error.message}`);
@@ -69,37 +74,69 @@ const resolvers = {
         { $addToSet: { jobs: jobId } },
         { new: true, runValidators: true }
       ).populate('jobs');
-    
+
       if (!updatedUser) {
         throw new Error('User not found');
       }
-    
+
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
       };
     },
-    removeJobFromUser: async (parent, { userId, jobId }) => { 
+    removeJobFromUser: async (parent, { userId, jobId }) => {
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
         { $pull: { jobs: jobId } },
         { new: true }
       ).populate('jobs');
-    
+
       if (!updatedUser) {
         throw new Error('User not found');
       }
 
       const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
-    
+
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
       };
     },
-    addPost: async (parent, { title, text }) => {
-      return Post.create({ title, text });
+<<<<<<< HEAD
+    addPost: async (parent, { title, text }, context) => {
+      // Ensure the user is logged in
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to create a post');
+      }
+
+      // Create the post with the associated user
+      const post = await Post.create({
+        title,
+        text,
+        user: context.user._id,
+      });
+
+      return post;
     },
+=======
+    addPost: async (parent, { title, text }) => {
+      try {
+        const newPost = new Post({
+          title,
+          text,
+          user: {
+            userName: "Anonymous User",
+            pfp: "/defaultpfp.PNG"
+          }
+        });
+        const savedPost = await newPost.save();
+        return savedPost;
+      } catch (error) {
+        console.error('Error adding post:', error);
+        throw new Error(`Failed to add post: ${error.message}`);
+      }
+    }
+>>>>>>> be3cb93558d99ce6549875bd1fd2ae0348c606cb
   },
 };
 
