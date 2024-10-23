@@ -1,42 +1,19 @@
-import { useEffect, useState } from 'react';
+// import { useEffect } from 'react';
+import { useQuery } from '@apollo/client';
+import { QUERY_USER } from '../../utils/proflies'; // Adjust the path as necessary
 import profilepic from "../assets/pics/profile.png";
 
-export default function Profile() {
-  const [profile, setProfile] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const response = await fetch('/utils/profile', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            // Include authorization header if needed
-            // 'Authorization': `Bearer ${token}`
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch profile');
-        }
-
-        const data = await response.json();
-        setProfile(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchProfile();
-  }, []);
+export default function Profile({ userId }) {
+  const { loading, error, data } = useQuery(QUERY_USER, {
+    variables: { userId },
+  });
 
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  console.log('wtf');
+  if (error) return <div>Error: {error.message}</div>;
 
+  const profile = data.user; // Adjust based on your GraphQL schema
+console.log('no data');
   return (
     <div className="profile">
       <h1>Profile</h1>

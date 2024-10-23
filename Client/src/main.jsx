@@ -1,5 +1,4 @@
-import ReactDOM from 'react-dom/client'
-// Bringing in the required imports from 'react-router-dom' to set up application routing behavior
+import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import './index.css';
 
@@ -9,10 +8,10 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Profile from './pages/Profile';
 import Jobs from './pages/Jobs';
-import SignUp from './pages/signup';
+import SignUp from './pages/Signup';
+import ApolloProvider from './ApolloProvider'; // Import the ApolloProvider
 
-
-// Define the accessible routes, and which components respond to which URL
+// Define the accessible routes
 const router = createBrowserRouter([
   {
     path: '/',
@@ -44,5 +43,7 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router} />
+  <ApolloProvider>
+    <RouterProvider router={router} />
+  </ApolloProvider> 
 );
