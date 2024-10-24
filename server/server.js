@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const path = require('path');
+const cors = require('cors');
 const mongoose = require('mongoose');
 
 const { ApolloServer } = require('@apollo/server');
@@ -17,6 +18,10 @@ const server = new ApolloServer({
   resolvers,
   context: authMiddleware,
 });
+
+app.use(cors({
+  origin: 'http://localhost:3000'
+}));
 
 const startApolloServer = async () => {
   await server.start();
