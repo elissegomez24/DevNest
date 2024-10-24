@@ -1,5 +1,3 @@
-
-
 import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
 import {  useQuery, useMutation } from '@apollo/client';

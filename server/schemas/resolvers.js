@@ -102,7 +102,6 @@ const resolvers = {
         jobs: updatedUser.jobs || []
       };
     },
-<<<<<<< HEAD
     addPost: async (parent, { title, text }, context) => {
       // Ensure the user is logged in
       if (!context.user) {
@@ -118,25 +117,6 @@ const resolvers = {
 
       return post;
     },
-=======
-    addPost: async (parent, { title, text }) => {
-      try {
-        const newPost = new Post({
-          title,
-          text,
-          user: {
-            userName: "Anonymous User",
-            pfp: "/defaultpfp.PNG"
-          }
-        });
-        const savedPost = await newPost.save();
-        return savedPost;
-      } catch (error) {
-        console.error('Error adding post:', error);
-        throw new Error(`Failed to add post: ${error.message}`);
-      }
-    }
->>>>>>> be3cb93558d99ce6549875bd1fd2ae0348c606cb
   },
 };
 
