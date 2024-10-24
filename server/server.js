@@ -6,11 +6,11 @@ const mongoose = require('mongoose');
 const { ApolloServer } = require('@apollo/server');
 const { authMiddleware } = require('./utils/auth');
 const { expressMiddleware } = require('@apollo/server/express4');
-const cors = require('cors');
 const { typeDefs, resolvers } = require('./schemas');
 const db = require('./config/connection');
 
 const PORT = process.env.PORT || 3001;
+const HOST = '0.0.0.0';
 const app = express();
 const server = new ApolloServer({
   typeDefs,
@@ -18,9 +18,6 @@ const server = new ApolloServer({
   context: authMiddleware,
 });
 
-app.use(cors({
-  origin: 'http://localhost:3000'
-}));
 const startApolloServer = async () => {
   await server.start();
   console.log("Apollo Server started");
@@ -48,7 +45,7 @@ const startApolloServer = async () => {
   mongoose.connection.once('open', () => {
     console.log('Successfully connected to MongoDB!');
 
-    app.listen(PORT, () => {
+    app.listen(PORT, HOST, () => {
       console.log(`API server running on port ${PORT}!`);
       console.log(`Use GraphQL at http://localhost:${PORT}/graphql`);
     });
