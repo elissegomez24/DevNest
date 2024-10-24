@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/server.js",
-  "Important for MERN Setup": {
-    "line-10": "We use this top-level package.json file to define scripts we can run to control our entire application from the same CLI location",
-    "line-21": "The concurrently npm tool allows us to execute two CLI processes... concurrently!"
-  },
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"cd server && npm run watch\" \"cd client && npm run dev\"",
@@ -45,6 +41,9 @@
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.453.0",
     "tailwind-merge": "^2.5.4",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "graphql": "^16.9.0",
+    "mongodb": "^6.10.0",
+    "mongoose": "^8.7.2"
   }
 }
