@@ -6,8 +6,22 @@ import { gql } from '@apollo/client';
 
 'use client'
 
+const GET_POST = gql`
+  query {
+    Post {
+      _id
+      title
+      text
+      user {
+        userName
+        pfp
+      }
+    }
+  }`
+;
+
 const ADD_POST = gql`
-  mutation addPost($title: String!, $text: String!) {
+  mutation AddPost($title: String!, $text: String!) {
     addPost(title: $title, text: $text) {
       _id
       title
@@ -17,65 +31,38 @@ const ADD_POST = gql`
         pfp
       }
     }
-  }
-`;
-
-const GET_POST = gql`
-query Query {
-  Post {
-    _id
-    text
-    title
-  }
-}
-`;
-
+  }`
+;
 
 
 export default function Home() {
   const { loading, error, data } = useQuery(GET_POST);
   
-  const [addPostMutation] = useMutation(ADD_POST);
+  const [addPostMutation] = useMutation(ADD_POST, {
+    refetchQueries: [{ query: GET_POST }] 
+  });
   const [posts, setPosts] = useState([]);
   const addPost = async (event) => {
     event.preventDefault();
     const title = event.target.Title.value;
     const text = event.target.Text.value;
-  
+
     try {
       const { data } = await addPostMutation({
-        variables: { title, text },
+        variables: { title, text }
       });
-      console.log('New post added to server:', data.addPost);
-      
-      const newPost = {
-        _id: data.addPost._id,
-        title: data.addPost.title,
-        text: data.addPost.text,
-        user: {
-          userName: "Current User", // You might want to replace this with actual user data
-          pfp: "/defaultpfp.PNG"
-        }
-      };
-  
-      setPosts([newPost, ...posts]);
-      event.target.reset();
+
+      if (data && data.addPost) {
+        setPosts([data.addPost, ...posts]);
+        event.target.reset();
+      }
     } catch (error) {
       console.error('Error adding post:', error);
     }
   };
-
   useEffect(() => {
-    if (data && data.Post) {
-      setPosts(data.Post.map(post => ({
-        _id: post._id,
-        title: post.title,
-        text: post.text,
-        user: {
-          userName: "User",
-          pfp: "/defaultpfp.PNG"
-        }
-      })));
+    if (data && data.Post) { 
+      setPosts(data.Post); 
     }
   }, [data]);
   

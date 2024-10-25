@@ -1,0 +1,55 @@
+h1 {
+    text-align: center;
+    font-size: 300%;
+    margin-bottom: 2%;
+    font-weight: 500;
+}
+
+.login {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+    border: 1px solid gray;
+    border-radius: 25px;
+    text-align: center;
+    width: 50%;
+    max-width: 500px; 
+    font-size: 150%;
+    margin-top: 10%;
+    padding: 20px;
+}
+
+.lg {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding-top: 5%;
+    padding-bottom: 10%;
+}
+
+.in, .up {
+    background-color: blue; 
+    color: white; 
+    border: none; 
+    border-radius: 25px;
+    width: 100px; 
+    height: 50px; 
+    margin-bottom: 5%;
+    cursor: pointer; 
+}
+
+.in:hover, .up:hover {
+    background-color: darkblue; 
+}
+
+input {
+    border: 1px solid gray;
+    width: 100%;
+    text-align: center;
+}
+
+.signup {
+    text-align: center;
+    padding-top: 8%;
+    font-size: 150%;
+}
