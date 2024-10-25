@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Software Engineer",
+    "description": "Develop and maintain software applications.",
+    "pay": 120
+  },
+  {
+    "name": "Project Manager",
+    "description": "Oversee projects from inception to completion.",
+    "pay": 150
+  },
+  {
+    "name": "Graphic Designer",
+    "description": "Create visual concepts to communicate ideas.",
+    "pay": 80
+  },
+  {
+    "name": "Data Analyst",
+    "description": "Analyze data to help make informed business decisions.",
+    "pay": 90
+  },
+  {
+    "name": "Marketing Specialist",
+    "description": "Develop marketing strategies to promote products.",
+    "pay": 70
+  },
+  {
+    "name": "Content Writer",
+    "description": "Write engaging content for various platforms.",
+    "pay": 50
+  },
+  {
+    "name": "QA Tester",
+    "description": "Test software to ensure quality and functionality.",
+    "pay": 60
+  },
+  {
+    "name": "Business Analyst",
+    "description": "Identify business needs and provide solutions.",
+    "pay": 110
+  }
+]
