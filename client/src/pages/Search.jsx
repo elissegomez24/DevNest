@@ -54,15 +54,6 @@ function App() {
           placeholder="Enter job description"
         />
 
-        <label htmlFor="location">Job Location (optional):</label>
-        <input
-          type="text"
-          id="location"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-          placeholder="Enter job location"
-        />
-
         <button type="submit">Search Jobs</button>
       </form>
 
