@@ -16,7 +16,7 @@ function App() {
       const matchCategory = job.category.toLowerCase().includes(category.toLowerCase());
       const matchDescription = job.description.toLowerCase().includes(description.toLowerCase());
 
-      return matchTitle && matchCategory && matchDescription && matchLocation;
+      return matchTitle && matchCategory && matchDescription;
     });
 
     setFilteredJobs(results);
@@ -66,7 +66,6 @@ function App() {
               <h3>{job.title}</h3>
               <p>Category: {job.category}</p>
               <p>Description: {job.description}</p>
-              <p>Location: {job.location}</p>
             </div>
           ))
         )}
