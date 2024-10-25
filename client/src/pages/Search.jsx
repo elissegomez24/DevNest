@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './App.css';
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
     event.preventDefault();
 
     // filters seeded data
-    const results = jobData.filter((job) => {
+    const results = seeds.filter((job) => {
       const matchTitle = job.title.toLowerCase().includes(title.toLowerCase());
       const matchCategory = job.category.toLowerCase().includes(category.toLowerCase());
       const matchDescription = job.description.toLowerCase().includes(description.toLowerCase());
