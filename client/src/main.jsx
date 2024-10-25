@@ -8,7 +8,7 @@ import Error from './pages/Error';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import Profile from './pages/Profile';
-import Jobs from './pages/Jobs';
+import Job from './pages/Job';
 
 
 const client = new ApolloClient({
@@ -31,8 +31,8 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: '/Jobs',
-        element: <Jobs />,
+        path: '/Job',
+        element: <Job />,
       },
       {
         path: '/SignIn',
@@ -44,6 +44,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={client}>
-  <RouterProvider router={router} />
-</ApolloProvider>
+    <RouterProvider router={router} />
+  </ApolloProvider>
 );

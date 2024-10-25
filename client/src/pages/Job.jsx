@@ -1,33 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { gql } from "@apollo/client";
+import { QUERY_ONE_JOB } from '../utils/queries'; // Ensure this query is defined properly
 
-// Separate the queries into two distinct constants
-export const GET_USER = gql`
-  query User {
-    User {
-      _id
-      userName
-    }
-  }
-`;
-
-export const GET_JOB = gql`
-  query Job {
-    Job {
-      _id
-      name
-      description
-      pay
-    }
-  }
-`;
-
-export default function Job() {
+const JobDetail = () => {
   const { jobId } = useParams(); // Get jobId from URL parameters
 
-  // Use only one query in useQuery hook
-  const { loading, error, data } = useQuery(GET_JOB, {
+  // Use the useQuery hook to fetch job details
+  const { loading, error, data } = useQuery(QUERY_ONE_JOB, {
     variables: { jobId }, // Pass the jobId to the query as a variable
   });
 
@@ -43,12 +22,12 @@ export default function Job() {
           <p>Loading job...</p>
         ) : error ? (
           <p>Error loading job: {error.message}</p>
-        ) : data?.job ? (
-          <div className="job-box" key={data.job._id}>
+        ) : data?.OneJob ? ( // Ensure you're accessing the right data structure
+          <div className="job-box" key={data.OneJob._id}>
             <div className="job-info">
-              <h4>{data.job.name}</h4>
-              <p>{data.job.description}</p>
-              <p>Pay: ${data.job.pay}</p>
+              <h4>{data.OneJob.title}</h4> {/* Change 'name' to 'title' based on your schema */}
+              <p>{data.OneJob.description}</p>
+              <p>Pay: ${data.OneJob.pay}</p>
             </div>
             <div className="job-links">
               {/* Replace with job-specific links */}
@@ -66,4 +45,6 @@ export default function Job() {
       </section>
     </div>
   );
-}
+};
+
+export default JobDetail; // Export the JobDetail component
