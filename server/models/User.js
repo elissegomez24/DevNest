@@ -3,10 +3,6 @@ const bcrypt = require('bcrypt');
 
 const userSchema = new Schema(
   {
-    pfp: {
-      type: String,
-      default: '/defaultpfp.PNG', // You can set a default image
-    },
     userName: {
       type: String,
       required: true,
