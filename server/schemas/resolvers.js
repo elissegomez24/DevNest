@@ -1,5 +1,6 @@
 const { User, Job, Post } = require('../models');
-const mongoose = require('mongoose');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
@@ -29,21 +30,41 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (parent, { userName, password }) => {
+    addUser: async (parent, { userName, email, password }) => {
       try {
         const existingUser = await User.findOne({ userName });
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = new User({ userName, password });
-        console.log(newUser);
-        const savedUser = await newUser.save();
-        return savedUser;
+        const newUser = await User.create({ userName, email, password });
+
+        // Sign token after successful user creation
+        const token = signToken(newUser);
+
+        return { token, user: newUser };
       } catch (error) {
         console.error('Error adding user:', error);
         throw new Error(`Failed to add user: ${error.message}`);
       }
     },
+
+    login: async (parent, { email, password }) => {
+      const user = await User.findOne({ email });
+      if (!user) {
+        throw new AuthenticationError('No user found with this username');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      // Sign token after successful login
+      const token = signToken(user);
+      return { token, user };
+    },
+
     addSkill: async (parent, { UserId, skill }) => {
       try {
         const updatedUser = await User.findOneAndUpdate(
@@ -95,20 +116,16 @@ const resolvers = {
         throw new Error('User not found');
       }
 
-      const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
-
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
       };
     },
     addPost: async (parent, { title, text }, context) => {
-      // Ensure the user is logged in
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to create a post');
       }
 
-      // Create the post with the associated user
       const post = await Post.create({
         title,
         text,
