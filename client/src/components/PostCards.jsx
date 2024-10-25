@@ -10,7 +10,7 @@ function postsCards({ posts }) {
   return (
     <div className="flex flex-col items-center w-1/2 mx-auto ">
       {posts.map((post) => (
-  <Card key={post._id} className="w-full mb-6 border-4 border-slate-800 bg-slate-700 text-white">
+  <Card key={post._id} className="w-full p-4 mb-6 border-4 border-slate-800 bg-slate-700 text-white">
     <div className="flex items-center">
       <div className="flex-shrink-0 mr-6">
         <img

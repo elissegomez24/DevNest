@@ -121,19 +121,21 @@ const resolvers = {
         jobs: updatedUser.jobs || []
       };
     },
-    addPost: async (parent, { title, text }, context) => {
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in to create a post');
+// if (!context.user) {
+      //   throw new AuthenticationError('You need to be logged in to create a post');
+      // }
+      addPost: async (parent, { title, text }, context) => {
+        const post = await Post.create({
+          title,
+          text,
+          user: {
+            userName: "User",
+            pfp: "/defaultpfp.PNG"
+          }
+        });
+      
+        return post;
       }
-
-      const post = await Post.create({
-        title,
-        text,
-        user: context.user._id,
-      });
-
-      return post;
-    },
   },
 };
 
