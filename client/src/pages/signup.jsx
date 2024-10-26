@@ -9,6 +9,7 @@ const SIGN_UP = gql`
     addUser(userName: $userName, password: $password) {
       _id
       userName
+      password
     }
   }
 `;
