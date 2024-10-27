@@ -29,6 +29,9 @@ export default function Profile({ onLogout }) {
 
   const [signOut] = useMutation(SIGN_OUT, {
     onCompleted: () => {
+
+      console.log(onLogout());
+      
       onLogout(); // Call the onLogout prop to handle the logout
     },
     onError: (err) => {

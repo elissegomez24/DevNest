@@ -1,7 +1,6 @@
 const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
-const { GraphQLError } = require('graphql');
 
 // Set token secret and expiration date
 const secret = 'mysecretsshhhhh';
@@ -36,11 +35,12 @@ const authMiddleware = async ({ req }) => {
 
         // return the request object so it can be passed to the resolver as `context`
         return req;
-    },
-    signToken: function ({ email, name, _id }) {
-        const payload = { email, name, _id };
+    };
+
+    const signToken = function ({ username, email, _id }) {
+        const payload = { username, email, _id };
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
-    },
-};
+    };
+
 
 module.exports = { authMiddleware, signToken, AuthenticationError };
