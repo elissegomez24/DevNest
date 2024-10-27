@@ -7,7 +7,7 @@ import Footer from '../components/Footer';
 
 const JobDetail = () => {
   const { jobId: paramJobId } = useParams();
-  const [jobId] = useState(paramJobId || '671af84365e63780c76508b1'); // Default to specified job ID if not in params
+  const jobId = paramJobId || '671af84365e63780c76508b1'; // Default to specified job ID if not in params
   const [postContent, setPostContent] = useState('');
 
   // Fetch job details
@@ -17,15 +17,19 @@ const JobDetail = () => {
 
   // Add post mutation
   const [addPost] = useMutation(ADD_POST, {
-    onCompleted: () => setPostContent(''),
-    onError: (error) => console.error('Error adding post:', error),
+    onCompleted: () => setPostContent(''), // Clear input after successful post
+    onError: (error) => console.error('Error adding post:', error), // Log errors
   });
 
   // Submit handler for adding a post
   const handleAddPost = async (event) => {
     event.preventDefault();
     if (postContent.trim()) {
-      await addPost({ variables: { jobId, content: postContent } });
+      try {
+        await addPost({ variables: { jobId, content: postContent } });
+      } catch (err) {
+        console.error('Failed to add post:', err);
+      }
     }
   };
 
@@ -34,7 +38,7 @@ const JobDetail = () => {
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-7xl py-10 text-center">
           {/* Job Details Heading and Description moved here */}
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-10"> {/* Add mt-6 for additional spacing */}
+          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-10">
             Job Details
           </h1>
           <p className="mt-4 text-lg leading-8 text-gray-600">
@@ -42,16 +46,8 @@ const JobDetail = () => {
           </p>
         </div>
 
-
         <div className="flex justify-center items-start mt-4 mb-10 max-w-7xl mx-auto">
-          {/* Left side: Image template */}
-          <div className="flex flex-col items-center bg-white shadow-md p-5 rounded-lg w-1/3">
-            <img
-              src="./DevNest-.png" // Replace with actual image path
-              alt="Job Template"
-              className="rounded-md mb-4 w-full h-48 object-cover"
-            />
-          </div>
+          {/* Removed the left side: Image template */}
 
           {/* Right side: Job details and Apply button */}
           <div className="bg-slate-700 p-8 rounded-lg shadow-md w-1/2 mx-5 mt-4">
