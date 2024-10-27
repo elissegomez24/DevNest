@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import AuthService from '../utils/auth';
 import './signin.css';
-// import { LOGIN } from '../utils/mutations';
 
 
 
@@ -11,8 +11,11 @@ import './signin.css';
 const SIGN_IN = gql`
   mutation login($userName: String!, $password: String!) {
     login(userName: $userName, password: $password) {
-      _id
-      userName
+      token
+      user {
+        _id
+        userName
+      }
     }
   }
 `;
@@ -27,8 +30,9 @@ export default function SignIn() {
     e.preventDefault();
     try {
       const { data } = await login({ variables: { userName, password } });
-      console.log('User signed in:', data.login);
-      // Optionally, redirect or show success message here
+      // Use the imported login method from AuthService
+      AuthService.login(data.login.token);
+      // No need for manual navigation since Auth.login handles it
     } catch (e) {
       console.error('Error signing in:', e);
     }

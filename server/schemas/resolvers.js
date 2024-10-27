@@ -30,13 +30,13 @@ const resolvers = {
     },
   },
   Mutation: {
-    addUser: async (parent, { userName, email, password }) => {
+    addUser: async (parent, { userName, password }) => {
       try {
         const existingUser = await User.findOne({ userName });
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = await User.create({ userName, email, password });
+        const newUser = await User.create({ userName, password });
 
         // Sign token after successful user creation
         const token = signToken(newUser);
@@ -48,8 +48,8 @@ const resolvers = {
       }
     },
 
-    login: async (parent, { email, password }) => {
-      const user = await User.findOne({ email });
+    login: async (parent, { userName, password }) => {
+      const user = await User.findOne({ userName });
       if (!user) {
         throw new AuthenticationError('No user found with this username');
       }
@@ -121,16 +121,20 @@ const resolvers = {
         jobs: updatedUser.jobs || []
       };
     },
-// if (!context.user) {
-      //   throw new AuthenticationError('You need to be logged in to create a post');
-      // }
+    
+
       addPost: async (parent, { title, text }, context) => {
+        
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to create a post');
+        }
+        
         const post = await Post.create({
           title,
           text,
           user: {
-            userName: "User",
-            pfp: "/defaultpfp.PNG"
+            userName: context.user.userName, 
+            pfp: context.user.pfp
           }
         });
       

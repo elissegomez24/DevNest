@@ -27,6 +27,17 @@ mutation AddJobToUser($userId: ID!, $jobId: ID!) {
 `;
 
 export const ADD_POST = gql`
+mutation CreatePost($title: String!, $text: String!) {
+  createPost(title: $title, text: $text) {
+    _id
+    title
+    text
+    user {
+      userName
+      pfp
+    }
+  }
+}
 `;
 
 export const ADD_SKILL = gql`

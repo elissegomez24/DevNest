@@ -95,7 +95,7 @@ export default function Home() {
           
         </div>
         <div className="text-center">
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="line text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Welcome to DevNest
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
