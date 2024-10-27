@@ -9,12 +9,14 @@ import './signin.css';
 
 // Define the SIGN_IN mutation
 const SIGN_IN = gql`
-  mutation login($userName: String!, $password: String!) {
-    login(userName: $userName, password: $password) {
-      _id
+mutation Mutation($username: String!, $password: String!) {
+  login(userName: $username, password: $password) {
+    user {
       userName
     }
+    token
   }
+}
 `;
 
 export default function SignIn() {
@@ -25,8 +27,9 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(userName, password);
     try {
-      const { data } = await login({ variables: { userName, password } });
+      const { data } = await login({ variables: { username: userName, password } });
       console.log('User signed in:', data.login);
       // Optionally, redirect or show success message here
     } catch (e) {

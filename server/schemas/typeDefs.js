@@ -53,6 +53,8 @@ type Auth {
     addJobToUser(userId: ID!, jobId: ID!): User
     removeJobFromUser(userId: ID!, jobId: ID!): User
     addPost(title: String!, text: String! ): Post
+    login(userName: String!, password: String!): Auth
+
   }
 `;
 

@@ -1,5 +1,6 @@
 const { User, Job, Post } = require('../models');
 const mongoose = require('mongoose');
+const { AuthenticationError, signToken } = require('../utils/auth')
 
 const resolvers = {
   Query: {
@@ -10,8 +11,8 @@ const resolvers = {
         jobs: user.jobs || []
       }));
     },
-    oneUser: async (parent, { UserId }) => {
-      return User.findOne({ _id: UserId });
+    oneUser: async (parent, { user }) => {
+      return User.findOne({ _id: user });
     },
     Job: async () => {
       const data = Job.find({});
@@ -19,7 +20,7 @@ const resolvers = {
       return Job.find({});
     },
     OneJob: async (parent, { jobId }) => {
-      console.log(job);
+      console.log(Job);
       return Job.findOne({ _id: jobId });
     },
     Post: async () => {
@@ -115,6 +116,23 @@ const resolvers = {
         });
       return post;
     },
+
+    login: async (parent, { userName, password }) => {
+      console.log(userName, password);
+      const user = await User.findOne({ userName: userName });
+
+      if (!user) {
+          throw AuthenticationError;
+      }
+
+      const isMatch = await user.isCorrectPassword(password);
+      if (!isMatch) {
+          throw AuthenticationError;
+      }
+
+      const token = signToken(user);
+      return { token, user };
+  },
   },
 };
 
