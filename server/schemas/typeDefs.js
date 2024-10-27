@@ -50,8 +50,14 @@ type Auth {
     removeJobFromUser(userId: ID!, jobId: ID!): User
     addPost(title: String!, text: String! ): Post
     login(userName: String!, password: String!): Auth
+    logout: LogoutResponse # Add this line
 
   }
+
+type LogoutResponse {
+  success: Boolean
+  message: String
+}
 `;
 
 module.exports = typeDefs;

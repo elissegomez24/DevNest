@@ -26,8 +26,6 @@ mutation AddJobToUser($userId: ID!, $jobId: ID!) {
 }
 `;
 
-export const ADD_POST = gql`
-`;
 
 export const ADD_SKILL = gql`
 mutation AddSkill($userId: ID!, $skill: String!) {

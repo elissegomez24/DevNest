@@ -1,8 +1,9 @@
-import { gql } from '@apollo/client';
-import { useQuery } from '@apollo/client';
+import { gql, useQuery, useMutation } from '@apollo/client';
 import { useParams } from 'react-router-dom';
+import { SIGN_OUT } from '../utils/mutations'
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const GET_ONE_USER = gql `
+const GET_ONE_USER = gql`
 query OneUser($user: ID!) {
   oneUser(user: $user) {
     _id
@@ -15,14 +16,24 @@ query OneUser($user: ID!) {
     skills
     pfp
   }
-}`
+}`;
 
-export default function Profile() {
+export default function Profile({ onLogout }) {
   const { userId } = useParams();
-  console.log(userId);
+  const navigate = useNavigate(); // Initialize useNavigate
+
 
   const { loading, error, data } = useQuery(GET_ONE_USER, {
-    variables: { user:  userId },
+    variables: { user: userId },
+  });
+
+  const [signOut] = useMutation(SIGN_OUT, {
+    onCompleted: () => {
+      onLogout(); // Call the onLogout prop to handle the logout
+    },
+    onError: (err) => {
+      console.error("Logout error:", err);
+    },
   });
 
   if (loading) return <p>Loading...</p>;
@@ -31,20 +42,24 @@ export default function Profile() {
   const { userName, posts } = data.oneUser;
 
   return (
-    <>
-      <div>
-        <h1 className='pro'>Welcome {userName}</h1>
-        <h2>Here's all of your posts!</h2>
-        <ul>
-          {posts.map(post => (
-            <li key={post._id}>
-              <h3>{post.title}</h3>
-              <p>{post.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </>
+    <div>
+      <h1 className='pro'>Welcome {userName}</h1>
+      <h2>Heres all of your posts!</h2>
+      <ul>
+        {posts.map(post => (
+          <li key={post._id}>
+            <h3>{post.title}</h3>
+            <p>{post.text}</p>
+          </li>
+        ))}
+      </ul>
+      <button onClick={() => {
+    signOut();
+    navigate('/Signin');
+}}>
+    Log out
+</button>
+
+    </div>
   );
 }
-

@@ -133,6 +133,12 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
   },
+
+  logout: async (_, __, { user }) => {
+    // Logic to handle user logout, e.g., clearing session or token
+    // If you're using JWT, just inform the client to remove the token
+    return { success: true, message: "Logged out successfully." };
+},
   },
 };
 
