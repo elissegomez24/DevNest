@@ -9,9 +9,9 @@ const expiration = '2h';
 
 const  AuthenticationError = new GraphQLError('Could not authenticate user.', {
     extensions: {
-      code: 'UNAUTHENTICATED',
+    code: 'UNAUTHENTICATED',
     },
-  })
+})
 
 const authMiddleware = async ({ req }) => {
     // Set token to be used for authentication
