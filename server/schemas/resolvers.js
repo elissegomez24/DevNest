@@ -11,8 +11,8 @@ const resolvers = {
         jobs: user.jobs || []
       }));
     },
-    oneUser: async (parent, { UserId }) => {
-      return User.findOne({ _id: UserId });
+    oneUser: async (parent, { user }) => {
+      return User.findOne({ _id: user });
     },
     Job: async () => {
       const data = Job.find({});
@@ -20,7 +20,7 @@ const resolvers = {
       return Job.find({});
     },
     OneJob: async (parent, { jobId }) => {
-      console.log(job);
+      console.log(Job);
       return Job.findOne({ _id: jobId });
     },
     Post: async () => {

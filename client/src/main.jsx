@@ -8,7 +8,6 @@ import Error from './pages/Error';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/signup';
-
 import Profile from './pages/Profile';
 import Jobs from './pages/Jobs';
 
@@ -29,7 +28,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/Profile',
+        path: '/profile/:userId',
         element: <Profile />,
       },
       {

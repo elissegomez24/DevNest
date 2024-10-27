@@ -9,6 +9,7 @@ const SIGN_UP = gql`
     addUser(userName: $userName, password: $password) {
       _id
       userName
+      password
     }
   }
 `;
@@ -41,7 +42,7 @@ export default function SignUp() {
       </div>
       <form className='for' onSubmit={handleSubmit}>
         <div className="su">
-          <label htmlFor="username">Username: (Username)</label>
+          <label htmlFor="username">Create Username</label>
           <input
             type="text"
             id="username"
@@ -51,7 +52,7 @@ export default function SignUp() {
           />
         </div>
         <div className="su">
-          <label htmlFor="password">Password: (********)</label>
+          <label htmlFor="password">Create Password</label>
           <input
             type="password"
             id="password"

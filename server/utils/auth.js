@@ -1,19 +1,21 @@
 const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
+const { User } = require('../models');
+const { GraphQLError } = require('graphql');
 
 // Set token secret and expiration date
 const secret = 'mysecretsshhhhh';
 const expiration = '2h';
 
-module.exports = {
-    AuthenticationError: new GraphQLError('Could not authenticate user.', {
-        extensions: {
-            code: 'UNAUTHENTICATED',
-        },
-    }),
-    authMiddleware: function ({ req }) {
-        // allows token to be sent via req.body, req.query, or headers
-        let token = req.body.token || req.query.token || req.headers.authorization;
+const  AuthenticationError = new GraphQLError('Could not authenticate user.', {
+    extensions: {
+    code: 'UNAUTHENTICATED',
+    },
+})
+
+const authMiddleware = async ({ req }) => {
+    // Set token to be used for authentication
+    let token = req.headers.authorization || '';
 
         // We split the token string into an array and return actual token
         if (req.headers.authorization) {
@@ -40,3 +42,5 @@ module.exports = {
         return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
     },
 };
+
+module.exports = { authMiddleware, signToken, AuthenticationError };
