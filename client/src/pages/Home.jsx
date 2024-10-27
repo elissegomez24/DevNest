@@ -2,6 +2,7 @@ import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
 import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
+import AuthService from '../utils/auth';
 
 
 'use client'
@@ -45,20 +46,34 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const addPost = async (event) => {
     event.preventDefault();
+    
+    if (!AuthService.loggedIn()) {
+      window.location.assign('/SignIn');
+      return;
+    }
+  
     const title = event.target.Title.value;
     const text = event.target.Text.value;
   
     try {
       const { data } = await addPostMutation({
-        variables: { title, text }
+        variables: { title, text },
+        onError: (error) => {
+          console.log('GraphQL Error:', {
+            message: error.message,
+            graphQLErrors: error.graphQLErrors,
+            networkError: error.networkError
+          });
+        }
       });
-      
       if (data && data.addPost) {
         setPosts([data.addPost, ...posts]);
         event.target.reset();
       }
     } catch (error) {
-      console.error('Error adding post:', error);
+      console.error('Full error object:', error);
+      console.error('Network error:', error?.networkError);
+      console.error('GraphQL errors:', error?.graphQLErrors);
     }
   };
   useEffect(() => {
@@ -152,6 +167,13 @@ export default function Home() {
 </div>
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
+  // onClick={() => {
+  //   if (!AuthService.loggedIn()) {
+      
+  //     window.location.assign('/SignIn');
+  //     return;
+  //   }
+  // }}
     type="submit"
     className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
