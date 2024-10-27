@@ -22,7 +22,7 @@ export default function Profile() {
   console.log(userId);
 
   const { loading, error, data } = useQuery(GET_ONE_USER, {
-    variables: { userId },
+    variables: { user:  userId },
   });
 
   if (loading) return <p>Loading...</p>;

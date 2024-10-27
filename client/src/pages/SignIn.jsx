@@ -9,6 +9,7 @@ const SIGN_IN = gql`
 mutation Mutation($username: String!, $password: String!) {
   login(userName: $username, password: $password) {
     user {
+    _id
       userName
     }
     token
@@ -25,29 +26,29 @@ export default function SignIn() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage(''); // Reset error message on submit
-
-    // Validate that both fields are filled out
+    setErrorMessage('');
+  
     if (!userName || !password) {
       setErrorMessage('You need to fill out all fields.');
-      return; // Exit the function if validation fails
+      return;
     }
-
+  
     try {
       const { data } = await login({ variables: { username: userName, password } });
-      
-      // Check if login was successful
+  
       if (data && data.login && data.login.token) {
         console.log('User signed in:', data.login);
-        navigate('/Profile'); // Navigate to profile on successful login
+        const userId = data.login.user._id; // Ensure you extract _id from the user object
+        navigate(`/profile/${userId}`); // Pass the userId to the Profile route
       } else {
         setErrorMessage('Invalid credentials, please try again.');
       }
     } catch (e) {
       console.error('Error signing in:', e);
-      setErrorMessage('Error signing in, please try again.'); // Display error message
+      setErrorMessage('Error signing in, please try again.');
     }
   };
+  
 
   return (
     <div className='lin'>
