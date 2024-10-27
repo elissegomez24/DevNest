@@ -8,7 +8,7 @@ import Footer from '../components/Footer';
 const JobDetail = () => {
   const { jobId: paramJobId } = useParams();
   const jobId = paramJobId || '671af84365e63780c76508b1'; // Default to specified job ID if not in params
-  const [postContent, setPostContent] = useState('');
+  const [postContent, setPostContent] = useState(''); 
 
   // Fetch job details
   const { loading, error, data } = useQuery(QUERY_ONE_JOB, {
