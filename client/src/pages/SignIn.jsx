@@ -3,9 +3,6 @@ import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import './signin.css';
-// import { LOGIN } from '../utils/mutations';
-
-
 
 // Define the SIGN_IN mutation
 const SIGN_IN = gql`
@@ -22,18 +19,33 @@ mutation Mutation($username: String!, $password: String!) {
 export default function SignIn() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [login, { error }] = useMutation(SIGN_IN);
+  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [login] = useMutation(SIGN_IN);
   const navigate = useNavigate(); // Initialize useNavigate
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(userName, password);
+    setErrorMessage(''); // Reset error message on submit
+
+    // Validate that both fields are filled out
+    if (!userName || !password) {
+      setErrorMessage('You need to fill out all fields.');
+      return; // Exit the function if validation fails
+    }
+
     try {
       const { data } = await login({ variables: { username: userName, password } });
-      console.log('User signed in:', data.login);
-      // Optionally, redirect or show success message here
+      
+      // Check if login was successful
+      if (data && data.login && data.login.token) {
+        console.log('User signed in:', data.login);
+        navigate('/Profile'); // Navigate to profile on successful login
+      } else {
+        setErrorMessage('Invalid credentials, please try again.');
+      }
     } catch (e) {
       console.error('Error signing in:', e);
+      setErrorMessage('Error signing in, please try again.'); // Display error message
     }
   };
 
@@ -65,8 +77,8 @@ export default function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className='in' type="submit" onClick={() => navigate('/Profile')} >Sign In</button>
-          {error && <p>Error: {error.message}</p>}
+          <button className='in' type="submit">Sign In</button>
+          {errorMessage && <p className='error'>{errorMessage}</p>} {/* Display error message */}
         </form>
       </div>
 

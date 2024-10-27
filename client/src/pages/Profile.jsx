@@ -2,23 +2,26 @@ import { gql } from '@apollo/client';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
-const GET_USER_PROFILE = gql`
-  query GetUserProfile($userId: ID!) {
-    oneUser(user: $userId) {
-      userName
-      posts {
-        _id
-        title
-        text
-      }
+const GET_ONE_USER = gql `
+query OneUser($user: ID!) {
+  oneUser(user: $user) {
+    _id
+    userName
+    posts {
+      _id
+      text
+      title
     }
+    skills
+    pfp
   }
-`;
+}`
 
 export default function Profile() {
   const { userId } = useParams();
+  console.log(userId);
 
-  const { loading, error, data } = useQuery(GET_USER_PROFILE, {
+  const { loading, error, data } = useQuery(GET_ONE_USER, {
     variables: { userId },
   });
 
