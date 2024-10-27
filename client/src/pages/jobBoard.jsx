@@ -1,50 +1,68 @@
-// // src/App.js
-// import { useState } from 'react';
+import { useState } from 'react';
+import JobCards from "../components/JobCards";
+import { useQuery } from '@apollo/client';
+import { gql } from '@apollo/client';
 
-// const App = () => {
-//   const [searchTerm, setSearchTerm] = useState('');
-//   const [filter, setFilter] = useState('all');
+'use client'
 
-//   const handleSearchChange = (e) => {
-//     setSearchTerm(e.target.value);
-//   };
+const GET_JOBS = gql`
+ query Job {
+  Job {
+    _id
+    name
+    pay
+  }
+}
+`;
 
-//   const handleFilterChange = (newFilter) => {
-//     setFilter(newFilter);
-//   };
+const JobBoard = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filter, setFilter] = useState('all');
+  const { loading, error, data } = useQuery(GET_JOBS);
 
-//   const handleSearchSubmit = (e) => {
-//     e.preventDefault();
-//     // Here you would typically trigger a search function
-//     console.log('Searching for:', searchTerm, 'with filter:', filter);
-//   };
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
 
-//   return (
-//     <div style={{ padding: '20px' }}>
-//       <form onSubmit={handleSearchSubmit}>
-//         <input
-//           type="text"
-//           value={searchTerm}
-//           onChange={handleSearchChange}
-//           placeholder="Search for jobs..."
-//         />
-//         <button type="submit">Search</button>
-//       </form>
-//       <ButtonGroup onFilterChange={handleFilterChange} />
-//       {/* Here you would render your job listings based on searchTerm and filter */}
-//     </div>
-//   );
-// };
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+  };
 
-// const ButtonGroup = ({ onFilterChange }) => {
-//   return (
-//     <div style={{ marginTop: '10px' }}>
-//       <button onClick={() => onFilterChange('all')}>All</button>
-//       <button onClick={() => onFilterChange('full-time')}>Full-Time</button>
-//       <button onClick={() => onFilterChange('part-time')}>Part-Time</button>
-//       <button onClick={() => onFilterChange('remote')}>Remote</button>
-//     </div>
-//   );
-// };
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log('Searching for:', searchTerm, 'with filter:', filter);
+  };
 
-// export default App;
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      <h1>Job Board</h1>
+      <form onSubmit={handleSearchSubmit}>
+        <input
+          type="text"
+          value={searchTerm}
+          onChange={handleSearchChange}
+          placeholder="Search for jobs..."
+        />
+        <button type="submit">Search</button>
+      </form> 
+      <JobCards jobs={data.Job}/>
+      <ButtonGroup onFilterChange={handleFilterChange} />
+    </div>
+  );
+};
+
+const ButtonGroup = ({ onFilterChange }) => {
+  return (
+    <div style={{ marginTop: '10px' }}>
+      <button onClick={() => onFilterChange('all')}>All</button>
+      <button onClick={() => onFilterChange('full-time')}>Full-Time</button>
+      <button onClick={() => onFilterChange('part-time')}>Part-Time</button>
+      <button onClick={() => onFilterChange('remote')}>Remote</button>
+    </div>
+  );
+};
+
+export default JobBoard;

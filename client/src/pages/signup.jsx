@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import './signup.css';
 
 // Define the SIGN_UP mutation
@@ -18,6 +19,7 @@ export default function SignUp() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [addUser, { error }] = useMutation(SIGN_UP);
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +31,7 @@ export default function SignUp() {
         },
       });
       console.log('User signed up successfully:', data.addUser);
+      navigate(`/SignIn`);
       // Add navigation after successful signup
     } catch (err) {
       console.error('Signup error details:', err.networkError?.result?.errors || err.message);
