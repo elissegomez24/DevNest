@@ -33,8 +33,8 @@ export default function Profile() {
   return (
     <>
       <div>
-        <h1 className='pro'>Profile Page</h1>
-        <h2>{userName}s Posts</h2>
+        <h1 className='pro'>Welcome {userName}</h1>
+        <h2>Here's all of your posts!</h2>
         <ul>
           {posts.map(post => (
             <li key={post._id}>

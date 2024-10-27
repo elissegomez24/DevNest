@@ -64,3 +64,13 @@ mutation RemoveSkill($userId: ID!, $skill: String!) {
   }
 }
 `; 
+
+export const SIGN_OUT = gql`
+mutation SignOut {
+  logout {
+    success
+    message
+  }
+}
+`;
+
