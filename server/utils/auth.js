@@ -1,3 +1,4 @@
+const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { GraphQLError } = require('graphql');
@@ -16,30 +17,30 @@ const authMiddleware = async ({ req }) => {
     // Set token to be used for authentication
     let token = req.headers.authorization || '';
 
-    // If the token is present, remove the "Bearer " from it
-    if (token.startsWith('Bearer ')) {
-        token = token.split(' ').pop().trim();
-    }
+        // We split the token string into an array and return actual token
+        if (req.headers.authorization) {
+            token = token.split(' ').pop().trim();
+        }
 
-    let user = {};
+        if (!token) {
+            return req;
+        }
 
-    // If there's a token, verify it
-    if (token) {
+        // if token can be verified, add the decoded user's data to the request so it can be accessed in the resolver
         try {
-            const { data } = jwt.verify(token, secret);
-            req.user = await User.findById(data._id).select('-__v -password');
+            const { data } = jwt.verify(token, secret, { maxAge: expiration });
+            req.user = data;
         } catch {
             console.log('Invalid token');
         }
-    }
 
-    return req;
-};
-
-const signToken = function ({ username, email, _id }) {
-    const payload = { username, email, _id };
-
-    return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+        // return the request object so it can be passed to the resolver as `context`
+        return req;
+    },
+    signToken: function ({ email, name, _id }) {
+        const payload = { email, name, _id };
+        return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
+    },
 };
 
 module.exports = { authMiddleware, signToken, AuthenticationError };

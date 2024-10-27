@@ -20,15 +20,18 @@ export default function SignUp() {
   const [addUser, { error }] = useMutation(SIGN_UP);
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
-    console.log('Hey');
+    e.preventDefault();
     try {
-      const { data } = await addUser({ variables: { userName, password } });
-      console.log('User signed up:', data.addUser);
-      console.log(data);
-      // Optionally, redirect or show success message here
-    } catch (e) {
-      console.error('Error signing up:', e);
+      const { data } = await addUser({
+        variables: { 
+          userName, 
+          password 
+        },
+      });
+      console.log('User signed up successfully:', data.addUser);
+      // Add navigation after successful signup
+    } catch (err) {
+      console.error('Signup error details:', err.networkError?.result?.errors || err.message);
     }
   };
 

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import AuthService from '../utils/auth';
 import './signin.css';
 
 // Define the SIGN_IN mutation

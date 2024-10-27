@@ -1,11 +1,14 @@
 'use client'
-import { useState } from 'react'
+
+import { useState  } from 'react'
 import { Dialog, DialogPanel } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
+import Auth from '../utils/auth';
 
 
-function NavTabs({loggedIn}) {
+function NavTabs() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  
 
   return (
     <div className="bg-white ">
@@ -32,9 +35,22 @@ function NavTabs({loggedIn}) {
           </button>
         </div>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {Auth.loggedIn() ? (
+            <> 
+            <button onClick={Auth.logout()}> 
+            <a href="/Profile" className="text-sm mr-3 font-semibold leading-6 text-white">
+            Logout 
+          </a>
+          </button>
+          <a href="/Profile" className="text-sm font-semibold leading-6 text-white">
+          Profile <span aria-hidden="true">&rarr;</span>
+        </a>
+        </>
+          ) : (
           <a href="/SignIn" className="text-sm font-semibold leading-6 text-white">
             Log in <span aria-hidden="true">&rarr;</span>
           </a>
+          )}
         </div>
       </nav>
       <Dialog open={mobileMenuOpen} onClose={setMobileMenuOpen} className="lg:hidden">

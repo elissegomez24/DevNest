@@ -1,6 +1,6 @@
 const { User, Job, Post } = require('../models');
-const mongoose = require('mongoose');
-const { AuthenticationError, signToken } = require('../utils/auth')
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
@@ -36,15 +36,35 @@ const resolvers = {
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = new User({ userName, password });
-        console.log(newUser);
-        const savedUser = await newUser.save();
-        return savedUser;
+        const newUser = await User.create({ userName, password });
+
+        // Sign token after successful user creation
+        const token = signToken(newUser);
+
+        return { token, user: newUser };
       } catch (error) {
         console.error('Error adding user:', error);
         throw new Error(`Failed to add user: ${error.message}`);
       }
     },
+
+    login: async (parent, { userName, password }) => {
+      const user = await User.findOne({ userName });
+      if (!user) {
+        throw new AuthenticationError('No user found with this username');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      // Sign token after successful login
+      const token = signToken(user);
+      return { token, user };
+    },
+
     addSkill: async (parent, { UserId, skill }) => {
       try {
         const updatedUser = await User.findOneAndUpdate(
@@ -96,49 +116,30 @@ const resolvers = {
         throw new Error('User not found');
       }
 
-      const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
-
       return {
         ...updatedUser.toObject(),
         jobs: updatedUser.jobs || []
       };
     },
- 
-      // Create the post with the associated user
+    
+
       addPost: async (parent, { title, text }, context) => {
+        
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to create a post');
+        }
+        
         const post = await Post.create({
           title,
           text,
           user: {
-            userName: "User",
-            pfp: "/defaultpfp.PNG"
+            userName: context.user.userName, 
+            pfp: context.user.pfp
           }
         });
-      return post;
-    },
-
-    login: async (parent, { userName, password }) => {
-      console.log(userName, password);
-      const user = await User.findOne({ userName: userName });
-
-      if (!user) {
-          throw AuthenticationError;
+      
+        return post;
       }
-
-      const isMatch = await user.isCorrectPassword(password);
-      if (!isMatch) {
-          throw AuthenticationError;
-      }
-
-      const token = signToken(user);
-      return { token, user };
-  },
-
-  logout: async (_, __, { user }) => {
-    // Logic to handle user logout, e.g., clearing session or token
-    // If you're using JWT, just inform the client to remove the token
-    return { success: true, message: "Logged out successfully." };
-},
   },
 };
 
