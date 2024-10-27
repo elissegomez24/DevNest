@@ -39,14 +39,14 @@ export default function SignIn() {
 
   return (
     <div className='lin'>
-      <div>
+      <div className='log'>
         <h1>Login</h1>
       </div>
 
       <div className='login'>
         <form onSubmit={handleSubmit}>
           <div className="lg">
-            <label htmlFor="username">Username: (Username)</label>
+            <label htmlFor="username">Enter Username</label>
             <input
               type="text"
               id="username"
@@ -56,7 +56,7 @@ export default function SignIn() {
             />
           </div>
           <div className="lg">
-            <label htmlFor="password">Password: (********)</label>
+            <label htmlFor="password">Enter Password</label>
             <input
               type="password"
               id="password"
@@ -65,7 +65,7 @@ export default function SignIn() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className='in' type="submit">Sign In</button>
+          <button className='in' type="submit" onClick={() => navigate('/Profile')} >Sign In</button>
           {error && <p>Error: {error.message}</p>}
         </form>
       </div>

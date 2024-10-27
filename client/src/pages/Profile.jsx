@@ -1,6 +1,4 @@
 import { gql } from '@apollo/client';
-// import {GET_USER_PROFILE} from '../utils/mutations'
-// import React from 'react';
 import { useQuery } from '@apollo/client';
 import { useParams } from 'react-router-dom';
 
@@ -17,11 +15,8 @@ const GET_USER_PROFILE = gql`
   }
 `;
 
-
- 
-
 export default function Profile() {
-  const { userId } = useParams(); // Get userId from the URL
+  const { userId } = useParams();
 
   const { loading, error, data } = useQuery(GET_USER_PROFILE, {
     variables: { userId },
@@ -35,7 +30,7 @@ export default function Profile() {
   return (
     <>
       <div>
-        <h1>Profile Page</h1>
+        <h1 className='pro'>Profile Page</h1>
         <h2>{userName}s Posts</h2>
         <ul>
           {posts.map(post => (

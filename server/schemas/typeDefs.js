@@ -30,9 +30,6 @@ type Auth {
   user: User
 }
 
-  # Important for useQuery: We define our Query type to inform our entry points
-  # The Query type is built-in to GraphQL, so we only need to extend it to include which kinds of information we plan to request in our application
-
   type Query {
     User: [User]!
     oneUser(user: ID!): User
@@ -44,7 +41,6 @@ type Auth {
     post(post: ID!): Post
   }
 
-  # Important for useMutation: We define our Mutation type to inform our entrypoints
 
   type Mutation {
     addUser(userName: String!, password: String!): User
