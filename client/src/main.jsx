@@ -9,9 +9,9 @@ import Home from './pages/Home';
 import SignIn from './pages/SignIn';
 import SignUp from './pages/signup';
 import Profile from './pages/Profile';
+import JobDetails from './pages/JobDetails';
 import Jobs from './pages/Jobs';
 import JobBoard from './pages/jobBoard';
-
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql', // Replace with your actual GraphQL API endpoint
@@ -33,8 +33,8 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: '/Jobs',
-        element: <Jobs />,
+        path: '/JobDetails',
+        element: <JobDetails />,
       },
       {
         path: '/SignIn',
@@ -54,6 +54,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <ApolloProvider client={client}>
-  <RouterProvider router={router} />
-</ApolloProvider>
+    <RouterProvider router={router} />
+  </ApolloProvider>
 );
