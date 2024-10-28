@@ -13,11 +13,12 @@ const DevNestFooter = () => {
             by="DevNest"
             year={currentYear}
           />
-          <p>Our Team:</p>
-          <a className='underline' href="https://github.com/Mitchell-610">Dennis Heit</a>
+          <p>Our Team</p>
+          <a className='underline' href="https://github.com/adenman">Aden Neal</a>
           <a className='underline' href="https://github.com/elissegomez24">Elisse Gomez</a>
-          <a className='underline' href="#">Taylor Tilney</a>
-          
+          <a className='underline' href="https://github.com/Mitchell-610">Dennis Heit</a>
+          <a className='underline' href="https://github.com/TayDeveloping">Taylor Tilney</a>
+
         </div>
       </div>
     </Footer>
