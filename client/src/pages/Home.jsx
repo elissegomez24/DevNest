@@ -2,23 +2,23 @@ import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
 import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
-import AuthService from '../utils/auth';
+
 
 
 'use client'
 
 const GET_POST = gql`
-  query {
-    Post {
-      _id
-      title
-      text
-      user {
-        userName
-        pfp
-      }
+query Query {
+  Post {
+    _id
+    text
+    title
+    user {
+      userName
+      pfp
     }
   }
+}
 `;
 
 const ADD_POST = gql`
@@ -37,7 +37,16 @@ const ADD_POST = gql`
 
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_POST);
+  const { loading, data } = useQuery(GET_POST);
+
+
+useEffect(() => {
+  console.log('Query data:', data);
+  if (data && data.Post) {
+    setPosts(data.Post);
+    console.log('Posts state updated:', data.Post);
+  }
+}, [data]);
 
   
   const [addPostMutation] = useMutation(ADD_POST, {
@@ -47,10 +56,7 @@ export default function Home() {
   const addPost = async (event) => {
     event.preventDefault();
     
-    if (!AuthService.loggedIn()) {
-      window.location.assign('/SignIn');
-      return;
-    }
+    
   
     const title = event.target.Title.value;
     const text = event.target.Text.value;
@@ -76,14 +82,11 @@ export default function Home() {
       console.error('GraphQL errors:', error?.graphQLErrors);
     }
   };
-  useEffect(() => {
-    if (data && data.Post) { 
-      setPosts(data.Post); 
-    }
-  }, [data]);
+
   
   return (
     <>
+      
     <div className="relative isolate px-6 pt-14 lg:px-8">
       <div
         aria-hidden="true"
@@ -167,13 +170,6 @@ export default function Home() {
 </div>
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
-  // onClick={() => {
-  //   if (!AuthService.loggedIn()) {
-      
-  //     window.location.assign('/SignIn');
-  //     return;
-  //   }
-  // }}
     type="submit"
     className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
@@ -186,11 +182,10 @@ export default function Home() {
       
       {/* posts */}
       {loading && <p>Loading posts...</p>}
-      {error && <p>Error loading posts: {error.message}</p>}
-      <section>
-      <PostCards posts={posts}/>
-      </section>
-    </div>
-    </>
+          <section>
+            <PostCards posts={posts}/>
+          </section>
+        </div>
+        </>
   );
 }

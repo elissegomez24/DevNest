@@ -65,22 +65,12 @@ export default function Profile({ onLogout }) {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error fetching profile: {error.message}</p>;
 
-  const { userName, posts } = data.oneUser;
+  const { userName } = data.oneUser;
 
   return (
     <div className="pro">
-      <h1>Welcome {userName}</h1>
-      <div className="post">
-        <h2>Here are all of your posts!</h2>
-        <ul>
-          {posts.map((post) => (
-            <li key={post._id}>
-              <h3>{post.title}</h3>
-              <p>{post.text}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <h1>Welcome <span>{userName}</span></h1>
+      
 
       <div className="skill">
         <h2>Add Your Skills</h2>

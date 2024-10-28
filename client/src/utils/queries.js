@@ -71,16 +71,16 @@ query GetAllJobs {
 }
 `;
 
-export const GET_ALL_POSTS = gql`
-query GetAllPosts {
-  posts {
-    _id
-    userId
-    content
-    createdAt
-  }
-}
-`;
+// export const GET_ALL_POSTS = gql`
+// query GetAllPosts {
+//   posts {
+//     _id
+//     userId
+//     content
+//     createdAt
+//   }
+// }
+// `;
 
 export const GET_ALL_SKILLS = gql`
 query GetAllSkills {

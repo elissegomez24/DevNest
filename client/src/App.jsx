@@ -2,6 +2,7 @@ import './App.css';
 import './index.css';
 import { Outlet } from 'react-router-dom';
 import Nav from './components/NavTabs';
+import Footer from './components/Footer';
 import {
   ApolloClient,
   InMemoryCache,
@@ -39,6 +40,7 @@ function App() {
         <main className="flex-column justify-center align-center min-100-vh bg-primary mx-3">
           <Outlet />
         </main>
+        <Footer/>
       </>
     </ApolloProvider>
   );

@@ -7,6 +7,7 @@ import { Card } from "flowbite-react";
 
 
 function postsCards({ posts }) {
+  console.log('Posts received in PostCards:', posts);
   return (
     <div className="flex flex-col items-center w-1/2 mx-auto">
       {posts.map((post) => (
@@ -16,7 +17,7 @@ function postsCards({ posts }) {
               <img
                 alt={`${post.user.userName}'s profile picture`}
                 height="128"
-                src={post.user.pfp || "/defaultpfp.PNG"}
+                src={ "/defaultpfp.PNG"}
                 width="128"
                 className="rounded-full shadow-lg object-cover"
               />
