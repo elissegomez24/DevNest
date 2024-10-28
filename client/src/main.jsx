@@ -7,8 +7,10 @@ import App from './App';
 import Error from './pages/Error';
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
+import SignUp from './pages/signup';
 import Profile from './pages/Profile';
 import Jobs from './pages/Jobs';
+import JobBoard from './pages/jobBoard';
 
 
 const client = new ApolloClient({
@@ -27,7 +29,7 @@ const router = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: '/Profile',
+        path: '/profile/:userId',
         element: <Profile />,
       },
       {
@@ -38,6 +40,14 @@ const router = createBrowserRouter([
         path: '/SignIn',
         element: <SignIn />,
       },
+      {
+        path: '/SignUp',
+        element: <SignUp />,
+      },
+      {
+        path: '/jobBoard',
+        element: <JobBoard />,
+      }
     ],
   },
 ]);
