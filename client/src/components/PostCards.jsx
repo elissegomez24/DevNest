@@ -16,7 +16,7 @@ function postsCards({ posts }) {
               <img
                 alt={`${post.user.userName}'s profile picture`}
                 height="128"
-                src={post.user.pfp || "/defaultpfp.PNG"}
+                src={ "/defaultpfp.PNG"}
                 width="128"
                 className="rounded-full shadow-lg object-cover"
               />

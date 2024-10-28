@@ -39,6 +39,8 @@ type Auth {
 
     Post: [Post]!
     post(post: ID!): Post
+    posts: [Post]!
+
   }
 
 
