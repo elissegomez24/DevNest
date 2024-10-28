@@ -1,4 +1,33 @@
 .pro {
-    margin-top: 10%;
-}
-
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items horizontally */
+    padding: 20px; /* Optional padding */
+  }
+  
+  h1 {
+    margin-bottom: 20px; /* Space below the heading */
+  }
+  
+  .post, .skill {
+    width: 100%; /* Full width for each section */
+    max-width: 600px; /* Optional max width for better readability */
+    margin: 10px 0; /* Space between sections */
+    padding: 20px; /* Padding inside each section */
+    border: 1px solid #ccc; /* Optional border for clarity */
+    border-radius: 8px; /* Optional rounded corners */
+    background-color: #f9f9f9; /* Optional background color */
+  }
+  
+  h2 {
+    margin-bottom: 10px; /* Space below subheadings */
+  }
+  
+  ul {
+    list-style-type: none; /* Remove bullet points from list */
+    padding: 0; /* Remove default padding */
+  }
+  
+  button {
+    margin-top: 20px; /* Space above the log out button */
+  }

@@ -25,30 +25,32 @@ export default function SignIn() {
   const [login] = useMutation(SIGN_IN);
   const navigate = useNavigate(); // Initialize useNavigate
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
   
     if (!userName || !password) {
-      setErrorMessage('You need to fill out all fields.');
-      return;
+        setErrorMessage('You need to fill out all fields.');
+        return;
     }
   
     try {
-      const { data } = await login({ variables: { username: userName, password } });
+        const { data } = await login({ variables: { username: userName, password } });
   
-      if (data && data.login && data.login.token) {
-        console.log('User signed in:', data.login);
-        const userId = data.login.user._id; // Ensure you extract _id from the user object
-        navigate(`/profile/${userId}`); // Pass the userId to the Profile route
-      } else {
-        setErrorMessage('Invalid credentials, please try again.');
-      }
+        if (data && data.login && data.login.token) {
+            console.log('User signed in:', data.login);
+            const userId = data.login.user._id; // Extract userId
+            localStorage.setItem('token', data.login.token); // Store token in local storage
+            navigate(`/profile/${userId}`); // Navigate to Profile route
+        } else {
+            setErrorMessage('Invalid credentials, please try again.');
+        }
     } catch (e) {
-      console.error('Error signing in:', e);
-      setErrorMessage('Error signing in, please try again.');
+        console.error('Error signing in:', e);
+        setErrorMessage('Error signing in, please try again.');
     }
-  };
+};
+
   
 
   return (
