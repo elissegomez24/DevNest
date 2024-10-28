@@ -9,8 +9,10 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/signup";
 import Profile from "./pages/Profile";
-import Jobs from "./pages/Jobs";
+// import Jobs from "./pages/Jobs";
 import JobBoard from "./pages/jobBoard";
+import JobDetails from "./pages/JobDetails";
+
 
 const client = new ApolloClient({
   uri: "http://localhost:3001/graphql", // Replace with your actual GraphQL API endpoint
@@ -44,8 +46,8 @@ const router = createBrowserRouter([
         element: <JobBoard />,
       },
       {
-        path: "/Jobs",
-        element: <Jobs />,
+        path: "/JobDetails/:jobId",
+        element: <JobDetails />,
       },
     ],
   },

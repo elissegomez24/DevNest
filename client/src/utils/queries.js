@@ -17,6 +17,17 @@ query User {
 }
 `;
 
+export const QUERY_ONE_JOB = gql`
+  query OneJob($jobId: ID!) {
+  OneJob(jobId: $jobId) {
+    _id
+    name
+    description
+    pay
+  }
+}
+`;
+
 export const GET_ALL_USERS = gql`
 query GetAllUsers {
   users {
