@@ -45,21 +45,13 @@ mutation AddJobToUser($userId: ID!, $jobId: ID!) {
 `;
 
 export const ADD_POST = gql`
-<<<<<<< HEAD
-=======
 mutation AddPost($title: String!, $text: String!) {
   addPost(title: $title, text: $text) {
->>>>>>> e2ac66405ecbb85a108e860c3c6536bc1bbbd2e6
-mutation CreatePost($title: String!, $text: String!) {
-  createPost(title: $title, text: $text) {
     _id
     title
     text
     user {
-<<<<<<< HEAD
-=======
       _id
->>>>>>> e2ac66405ecbb85a108e860c3c6536bc1bbbd2e6
       userName
       pfp
     }

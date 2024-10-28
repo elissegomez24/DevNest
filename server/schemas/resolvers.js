@@ -223,7 +223,6 @@ const resolvers = {
 
 
     addPost: async (parent, { title, text }, context) => {
-
       if (!context.user) {
         throw new AuthenticationError('You need to be logged in to create a post');
       }
