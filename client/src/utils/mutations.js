@@ -45,14 +45,14 @@ mutation AddJobToUser($userId: ID!, $jobId: ID!) {
 `;
 
 export const ADD_POST = gql`
-mutation AddPost($title: String!, $text: String!) {
-  addPost(title: $title, text: $text) {
+mutation CreatePost($title: String!, $text: String!) {
+  createPost(title: $title, text: $text) {
     _id
     title
     text
     user {
-      _id
       userName
+      pfp
     }
   }
 }
@@ -94,3 +94,13 @@ mutation RemoveSkill($userId: ID!, $skill: String!) {
   }
 }
 `; 
+
+export const SIGN_OUT = gql`
+mutation SignOut {
+  logout {
+    success
+    message
+  }
+}
+`;
+

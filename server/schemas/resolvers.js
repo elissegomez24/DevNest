@@ -6,12 +6,14 @@ const resolvers = {
   Query: {
     // Fetch all users and populate their jobs
     User: async () => {
-      return User.find({}).populate('jobs');
+      const users = await User.find({}).populate('jobs');
+      return users.map(user => ({
+        ...user.toObject(),
+        jobs: user.jobs || []
+      }));
     },
-
-    // Fetch one user by ID
-    oneUser: async (parent, { UserId }) => {
-      return User.findOne({ _id: UserId }).populate('jobs');
+    oneUser: async (parent, { user }) => {
+      return User.findOne({ _id: user });
     },
 
     // Fetch all jobs
@@ -28,18 +30,8 @@ const resolvers = {
 
     // Fetch one job by ID
     OneJob: async (parent, { jobId }) => {
-      try {
-        const job = await Job.findById(jobId);
-
-        if (!job) {
-          throw new Error('Job not found');
-        }
-
-        return job;
-      } catch (error) {
-        console.error('Error fetching job:', error);
-        throw new Error('Failed to fetch job');
-      }
+      console.log(Job);
+      return Job.findOne({ _id: jobId });
     },
 
     // Fetch all posts
@@ -56,14 +48,13 @@ const resolvers = {
   },
 
   Mutation: {
-    // Add a new user
-    addUser: async (parent, { userName, email, password }) => {
+    addUser: async (parent, { userName, password }) => {
       try {
         const existingUser = await User.findOne({ userName });
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = await User.create({ userName, email, password });
+        const newUser = await User.create({ userName, password });
 
         // Sign token after successful user creation
         const token = signToken(newUser);
@@ -75,7 +66,6 @@ const resolvers = {
       }
     },
 
-    // Login mutation
     login: async (parent, { userName, password }) => {
       const user = await User.findOne({ userName });
       if (!user) {
@@ -230,22 +220,25 @@ const resolvers = {
         throw new Error(`Failed to remove job: ${error.message}`);
       };
     },
+    
 
-    // Add a post
-    addPost: async (parent, { title, text }, context) => {
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in to create a post');
+      addPost: async (parent, { title, text }, context) => {
+        
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to create a post');
+        }
+        
+        const post = await Post.create({
+          title,
+          text,
+          user: {
+            userName: context.user.userName, 
+            pfp: context.user.pfp
+          }
+        });
+      
+        return post;
       }
-
-      const newPost = await Post.create({
-        title,
-        text,
-        user: context.user._id, // Ensure this references the authenticated user's ID
-      });
-
-      // Fetch and return the new post with the user details
-      return Post.findById(newPost._id).populate('user', 'userName');
-    },
   },
 };
 

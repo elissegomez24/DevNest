@@ -2,12 +2,27 @@ import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
 import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
+import AuthService from '../utils/auth';
 
 
 'use client'
 
+const GET_POST = gql`
+  query {
+    Post {
+      _id
+      title
+      text
+      user {
+        userName
+        pfp
+      }
+    }
+  }
+`;
+
 const ADD_POST = gql`
-  mutation addPost($title: String!, $text: String!) {
+  mutation AddPost($title: String!, $text: String!) {
     addPost(title: $title, text: $text) {
       _id
       title
@@ -20,62 +35,50 @@ const ADD_POST = gql`
   }
 `;
 
-const GET_POST = gql`
-query Query {
-  Post {
-    _id
-    text
-    title
-  }
-}
-`;
-
-
 
 export default function Home() {
   const { loading, error, data } = useQuery(GET_POST);
+
   
-  const [addPostMutation] = useMutation(ADD_POST);
+  const [addPostMutation] = useMutation(ADD_POST, {
+    refetchQueries: [{ query: GET_POST }] 
+  });
   const [posts, setPosts] = useState([]);
   const addPost = async (event) => {
     event.preventDefault();
+    
+    if (!AuthService.loggedIn()) {
+      window.location.assign('/SignIn');
+      return;
+    }
+  
     const title = event.target.Title.value;
     const text = event.target.Text.value;
   
     try {
       const { data } = await addPostMutation({
         variables: { title, text },
-      });
-      console.log('New post added to server:', data.addPost);
-      
-      const newPost = {
-        _id: data.addPost._id,
-        title: data.addPost.title,
-        text: data.addPost.text,
-        user: {
-          userName: "Current User", // You might want to replace this with actual user data
-          pfp: "/defaultpfp.PNG"
+        onError: (error) => {
+          console.log('GraphQL Error:', {
+            message: error.message,
+            graphQLErrors: error.graphQLErrors,
+            networkError: error.networkError
+          });
         }
-      };
-  
-      setPosts([newPost, ...posts]);
-      event.target.reset();
+      });
+      if (data && data.addPost) {
+        setPosts([data.addPost, ...posts]);
+        event.target.reset();
+      }
     } catch (error) {
-      console.error('Error adding post:', error);
+      console.error('Full error object:', error);
+      console.error('Network error:', error?.networkError);
+      console.error('GraphQL errors:', error?.graphQLErrors);
     }
   };
-
   useEffect(() => {
-    if (data && data.Post) {
-      setPosts(data.Post.map(post => ({
-        _id: post._id,
-        title: post.title,
-        text: post.text,
-        user: {
-          userName: "User",
-          pfp: "/defaultpfp.PNG"
-        }
-      })));
+    if (data && data.Post) { 
+      setPosts(data.Post); 
     }
   }, [data]);
   
@@ -92,7 +95,7 @@ export default function Home() {
           
         </div>
         <div className="text-center">
-          <h1 className="text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+          <h1 className="line text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
             Welcome to DevNest
           </h1>
           <p className="mt-6 text-lg leading-8 text-gray-600">
@@ -110,7 +113,7 @@ export default function Home() {
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">The Worlds First Developer Focued Job Hub</h1>
         <p className="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Here at DevNest we focus on helping you start your new career and connect with your community.</p>
         <div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="/Jobs" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-slate-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+            <a href="/jobBoard" className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-slate-700 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Job board
                 <svg className="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
@@ -164,6 +167,13 @@ export default function Home() {
 </div>
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
+  // onClick={() => {
+  //   if (!AuthService.loggedIn()) {
+      
+  //     window.location.assign('/SignIn');
+  //     return;
+  //   }
+  // }}
     type="submit"
     className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
