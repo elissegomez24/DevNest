@@ -1,0 +1,29 @@
+form {
+    text-align: center;
+}
+
+.filters {
+    display: flex;   /* Align buttons in a row */
+    justify-content: center;
+    gap: 5%;
+ 
+  }
+  
+  .filters button, .sea {
+    background-color: blue; 
+    color: white; 
+    border: none; 
+    border-radius: 25px;
+    width: 100px; 
+    height: 50px; 
+    margin-top: 2%;
+    margin-bottom: 1%;
+    cursor: pointer; 
+  }
+
+  .job-details {
+  margin-top: 20px;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}

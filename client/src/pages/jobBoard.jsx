@@ -2,6 +2,7 @@ import { useState } from 'react';
 import JobCards from "../components/JobCards";
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
+import './jobBoard.css';
 
 'use client'
 
@@ -46,17 +47,17 @@ const JobBoard = () => {
           onChange={handleSearchChange}
           placeholder="Search for jobs..."
         />
-        <button type="submit">Search</button>
+        <button className='sea' type="submit">Search</button>
+        <ButtonGroup onFilterChange={handleFilterChange} />
       </form> 
       <JobCards jobs={data.Job}/>
-      <ButtonGroup onFilterChange={handleFilterChange} />
     </div>
   );
 };
 
 const ButtonGroup = ({ onFilterChange }) => {
   return (
-    <div style={{ marginTop: '10px' }}>
+    <div className='filters' style={{ marginTop: '10px' }}>
       <button onClick={() => onFilterChange('all')}>All</button>
       <button onClick={() => onFilterChange('full-time')}>Full-Time</button>
       <button onClick={() => onFilterChange('part-time')}>Part-Time</button>

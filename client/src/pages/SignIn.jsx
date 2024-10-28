@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import AuthService from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
 import './signin.css';
 
 // Define the SIGN_IN mutation
@@ -21,34 +20,36 @@ mutation Mutation($username: String!, $password: String!) {
 export default function SignIn() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [errorMessage, setErrorMessage] = useState(''); // State for error messages
+  const [errorMessage, setErrorMessage] = useState('');
   const [login] = useMutation(SIGN_IN);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+ const handleSubmit = async (e) => {
     e.preventDefault();
     setErrorMessage('');
   
     if (!userName || !password) {
-      setErrorMessage('You need to fill out all fields.');
-      return;
+        setErrorMessage('You need to fill out all fields.');
+        return;
     }
   
     try {
-      const { data } = await login({ variables: { username: userName, password } });
+        const { data } = await login({ variables: { username: userName, password } });
   
-      if (data && data.login && data.login.token) {
-        console.log('User signed in:', data.login);
-        const userId = data.login.user._id; // Ensure you extract _id from the user object
-        navigate(`/profile/${userId}`); // Pass the userId to the Profile route
-      } else {
-        setErrorMessage('Invalid credentials, please try again.');
-      }
+        if (data && data.login && data.login.token) {
+            console.log('User signed in:', data.login);
+            const userId = data.login.user._id;
+            localStorage.setItem('token', data.login.token);
+            navigate(`/profile/${userId}`);
+        } else {
+            setErrorMessage('Invalid credentials, please try again.');
+        }
     } catch (e) {
-      console.error('Error signing in:', e);
-      setErrorMessage('Error signing in, please try again.');
+        console.error('Error signing in:', e);
+        setErrorMessage('Error signing in, please try again.');
     }
-  };
+};
+
   
 
   return (
@@ -80,13 +81,13 @@ export default function SignIn() {
             />
           </div>
           <button className='in' type="submit">Sign In</button>
-          {errorMessage && <p className='error'>{errorMessage}</p>} {/* Display error message */}
+          {errorMessage && <p className='error'>{errorMessage}</p>}
         </form>
       </div>
 
       <div className='signup'>
         <p>Don’t have an account? </p>
-        <button className='up' onClick={() => navigate('/Signup')}>Sign-up</button> {/* Navigate to Sign-Up */}
+        <button className='up' onClick={() => navigate('/Signup')}>Sign-up</button>
       </div>
     </div>
   );
