@@ -1,11 +1,22 @@
 const { Schema, model } = require('mongoose');
 
 const postSchema = new Schema({
-  title: String,
-  text: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
   user: {
-    userName: String,
-    pfp: String
+    userName: {
+      type: String,
+      required: true,
+    },
+    pfp: {
+      type: String,
+    }
   }
 });
 

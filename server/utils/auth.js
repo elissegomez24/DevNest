@@ -1,38 +1,49 @@
+const { GraphQLError } = require('graphql');
 const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
-// Set token secret and expiration date
-const secret = 'mysecretsshhhhh';
+// Using environment variable for security (recommended)
+const secret = process.env.JWT_SECRET || 'mysecretsshhhhh';
 const expiration = '2h';
 
+const AuthenticationError = new GraphQLError('Could not authenticate user.', {
+    extensions: {
+        code: 'UNAUTHENTICATED',
+    }
+});
+
 const authMiddleware = async ({ req }) => {
-    // Set token to be used for authentication
     let token = req.headers.authorization || '';
 
-    // If the token is present, remove the "Bearer " from it
-    if (token.startsWith('Bearer ')) {
+    if (req.headers.authorization) {
         token = token.split(' ').pop().trim();
     }
 
-    let user = {};
+    if (!token) {
+        return req;
 
-    // If there's a token, verify it
-    if (token) {
-        try {
-            const { data } = jwt.verify(token, secret);
-            req.user = await User.findById(data._id).select('-__v -password');
-        } catch {
-            console.log('Invalid token');
+    }
+
+    try {
+        const { data } = jwt.verify(token, secret, { maxAge: expiration });
+        const user = await User.findById(data._id);
+        
+        if (!user) {
+            throw new AuthenticationError;
         }
+        
+        req.user = data;
+    } catch (error) {
+        console.log('Authentication error:', error.message);
+        throw new AuthenticationError;
     }
 
     return req;
 };
 
-const signToken = function ({ username, email, _id }) {
-    const payload = { username, email, _id };
-
+const signToken = function ({ email, name, _id }) {
+    const payload = { email, name, _id };
     return jwt.sign({ data: payload }, secret, { expiresIn: expiration });
 };
 
-module.exports = { authMiddleware, signToken };
+module.exports = { authMiddleware, signToken, AuthenticationError };

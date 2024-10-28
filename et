@@ -1,0 +1,28 @@
+[33m660f47b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32msafeA[m[33m)[m HEAD@{0}: commit (merge): Blank.
+[33m8ef10e5[m HEAD@{1}: commit: Most up to date files.
+[33m6cc68df[m HEAD@{2}: commit: Skills append to page.
+[33m6023e48[m HEAD@{3}: commit: skills section added within profile section.
+[33m8ed12c8[m HEAD@{4}: commit: JobBoard page now has styles along with btn placement.
+[33m7fa84e9[m HEAD@{5}: commit (merge): Auth updated with correct merge.
+[33m0605c3d[m HEAD@{6}: commit: Auth.js updated to take userName.
+[33mc437529[m HEAD@{7}: checkout: moving from Mitch to safeA
+[33m7deb52b[m[33m ([m[1;32mMitch[m[33m)[m HEAD@{8}: commit: Profile page npow has logout button that is working on front end not 100% about backend.
+[33m4bfc716[m HEAD@{9}: commit: Changed navtabs to accept logout statement.
+[33mdb2fa5d[m HEAD@{10}: commit: User now appends to screen with user posts.
+[33mb1a51fb[m HEAD@{11}: commit: Log in changed to only allow users who have accounts to login.
+[33mf00ed9a[m HEAD@{12}: commit: CSS applied for signup/in forms along with profile addition but not working yet.
+[33m333c064[m HEAD@{13}: commit: Login updates.
+[33m77d6fca[m HEAD@{14}: checkout: moving from job to Mitch
+[33mee13e60[m[33m ([m[1;32mjob[m[33m)[m HEAD@{15}: commit: Updated file system
+[33m4bbf0ce[m HEAD@{16}: checkout: moving from Mitch to job
+[33m77d6fca[m HEAD@{17}: checkout: moving from job to Mitch
+[33m4bbf0ce[m HEAD@{18}: commit: Look
+[33mbaf8fc5[m HEAD@{19}: checkout: moving from Mitch to job
+[33m77d6fca[m HEAD@{20}: commit: Updated signup jsx.
+[33m8cfaa0c[m[33m ([m[1;31morigin/mitch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{21}: checkout: moving from main to Mitch
+[33m8cfaa0c[m[33m ([m[1;31morigin/mitch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{22}: checkout: moving from Mitch to main
+[33m8cfaa0c[m[33m ([m[1;31morigin/mitch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{23}: checkout: moving from main to Mitch
+[33m8cfaa0c[m[33m ([m[1;31morigin/mitch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{24}: checkout: moving from Profile to main
+[33md4d98a9[m[33m ([m[1;31morigin/Profile[m[33m, [m[1;32mProfile[m[33m)[m HEAD@{25}: checkout: moving from main to Profile
+[33m8cfaa0c[m[33m ([m[1;31morigin/mitch[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{26}: commit: Signin and signup pages created with css applied.
+[33mb876277[m HEAD@{27}: clone: from github.com:elissegomez24/DevNest.git

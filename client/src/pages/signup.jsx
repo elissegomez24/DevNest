@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
+import { useNavigate } from 'react-router-dom';
 import './signup.css';
 
 // Define the SIGN_UP mutation
@@ -9,6 +10,7 @@ const SIGN_UP = gql`
     addUser(userName: $userName, password: $password) {
       _id
       userName
+      password
     }
   }
 `;
@@ -17,17 +19,22 @@ export default function SignUp() {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [addUser, { error }] = useMutation(SIGN_UP);
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent the default form submission
-    console.log('Hey');
+    e.preventDefault();
     try {
-      const { data } = await addUser({ variables: { userName, password } });
-      console.log('User signed up:', data.addUser);
-      console.log(data);
-      // Optionally, redirect or show success message here
-    } catch (e) {
-      console.error('Error signing up:', e);
+      const { data } = await addUser({
+        variables: { 
+          userName, 
+          password 
+        },
+      });
+      console.log('User signed up successfully:', data.addUser);
+      navigate(`/SignIn`);
+      // Add navigation after successful signup
+    } catch (err) {
+      console.error('Signup error details:', err.networkError?.result?.errors || err.message);
     }
   };
 
@@ -38,7 +45,7 @@ export default function SignUp() {
       </div>
       <form className='for' onSubmit={handleSubmit}>
         <div className="su">
-          <label htmlFor="username">Username: (Username)</label>
+          <label htmlFor="username">Create Username</label>
           <input
             type="text"
             id="username"
@@ -48,7 +55,7 @@ export default function SignUp() {
           />
         </div>
         <div className="su">
-          <label htmlFor="password">Password: (********)</label>
+          <label htmlFor="password">Create Password</label>
           <input
             type="password"
             id="password"

@@ -1,8 +1,10 @@
 const { User, Job, Post } = require('../models');
-const mongoose = require('mongoose');
+const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require('apollo-server-express');
 
 const resolvers = {
   Query: {
+    // Fetch all users and populate their jobs
     User: async () => {
       const users = await User.find({}).populate('jobs');
       return users.map(user => ({
@@ -10,24 +12,41 @@ const resolvers = {
         jobs: user.jobs || []
       }));
     },
-    oneUser: async (parent, { UserId }) => {
-      return User.findOne({ _id: UserId });
+    oneUser: async (parent, { user }) => {
+      return User.findOne({ _id: user });
     },
+
+    // Fetch all jobs
     Job: async () => {
-      const data = Job.find({});
-      console.log(data);
-      return Job.find({});
+      try {
+        const jobs = await Job.find({});
+        console.log(jobs);
+        return jobs;
+      } catch (error) {
+        console.error('Error fetching jobs:', error);
+        throw new Error('Failed to fetch jobs');
+      }
     },
+
+    // Fetch one job by ID
     OneJob: async (parent, { jobId }) => {
-      console.log(job);
+      console.log(Job);
       return Job.findOne({ _id: jobId });
     },
+
+    // Fetch all posts
     Post: async () => {
-      const data = await Post.find({});
-      console.log(data);
-      return data;
+      try {
+        const posts = await Post.find({});
+        // console.log(posts);
+        // return posts;
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+        throw new Error('Failed to fetch posts');
+      }
     },
   },
+
   Mutation: {
     addUser: async (parent, { userName, password }) => {
       try {
@@ -35,32 +54,64 @@ const resolvers = {
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = new User({ userName, password });
-        console.log(newUser);
-        const savedUser = await newUser.save();
-        return savedUser;
+        const newUser = await User.create({ userName, password });
+
+        // Sign token after successful user creation
+        const token = signToken(newUser);
+
+        return { token, user: newUser };
       } catch (error) {
         console.error('Error adding user:', error);
         throw new Error(`Failed to add user: ${error.message}`);
       }
     },
-    addSkill: async (parent, { UserId, skill }) => {
+
+    login: async (parent, { userName, password }) => {
+      const user = await User.findOne({ userName });
+      if (!user) {
+        throw new AuthenticationError('No user found with this email');
+      }
+
+      const correctPw = await user.isCorrectPassword(password);
+
+      if (!correctPw) {
+        throw new AuthenticationError('Incorrect credentials');
+      }
+
+      // Sign token after successful login
+      const token = signToken(user);
+      return { token, user };
+    },
+
+    // Add a skill to a user
+    addSkill: async (parent, { UserId, skill }, context) => {
+      // Check if the user is logged in
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to add a skill');
+      }
+
       try {
+        // Update the user by adding the skill to their skills array
         const updatedUser = await User.findOneAndUpdate(
           { _id: UserId },
-          { $addToSet: { skills: skill } },
+          { $addToSet: { skills: skill } }, // Use $addToSet to avoid duplicates
           { new: true, runValidators: true }
         );
 
+        // Handle the case where the user is not found
         if (!updatedUser) {
           throw new Error('User not found');
         }
 
+        // Return the updated user
         return updatedUser;
       } catch (error) {
+        console.error('Error adding skill:', error);
         throw new Error(`Failed to add skill: ${error.message}`);
       }
     },
+
+    // Remove a skill from a user
     removeSkill: async (parent, { UserId, skill }) => {
       return User.findOneAndUpdate(
         { _id: UserId },
@@ -68,6 +119,8 @@ const resolvers = {
         { new: true }
       );
     },
+
+    // Add a job to a user
     addJobToUser: async (parent, { userId, jobId }) => {
       const updatedUser = await User.findOneAndUpdate(
         { _id: userId },
@@ -81,40 +134,110 @@ const resolvers = {
 
       return {
         ...updatedUser.toObject(),
-        jobs: updatedUser.jobs || []
+        jobs: updatedUser.jobs || [],
       };
     },
-    removeJobFromUser: async (parent, { userId, jobId }) => {
-      const updatedUser = await User.findOneAndUpdate(
-        { _id: userId },
-        { $pull: { jobs: jobId } },
-        { new: true }
-      ).populate('jobs');
 
-      if (!updatedUser) {
-        throw new Error('User not found');
+    addJobToUser: async (parent, { userId, jobId }) => {
+      try {
+        // Fetch the job by its ID
+        const job = await Job.findById(jobId);
+        if (!job) {
+          throw new Error('Job not found');
+        }
+
+        // Add the job to the user's jobs array
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { $addToSet: { jobs: jobId } },
+          { new: true, runValidators: true }
+        ).populate('jobs');
+
+        if (!updatedUser) {
+          throw new Error('User not found');
+        }
+
+        // Return the user object and the job details
+        return {
+          user: {
+            _id: updatedUser._id,
+            userName: updatedUser.userName,  // Ensure the userName is included
+          },
+          job: {
+            _id: job._id,
+            name: job.name,
+            description: job.description,
+            pay: job.pay,
+          },
+        };
+      } catch (error) {
+        console.error('Error adding job to user:', error);
+        throw new Error('Failed to add job to user');
+      }
+    },
+
+    // Remove a job from a user
+    removeJobFromUser: async (parent, { userId, jobId }, context) => {
+      // Check if the user is logged in
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to remove a job');
       }
 
-      const removedJob = !updatedUser.jobs.some(job => job._id.toString() === jobId);
+      try {
+        // Verify that the job exists
+        const job = await Job.findById(jobId);
+        if (!job) {
+          throw new Error('Job not found');
+        }
 
-      return {
-        ...updatedUser.toObject(),
-        jobs: updatedUser.jobs || []
+        // Update the user by removing the job from their jobs array
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { $pull: { jobs: jobId } },  // Use $pull to remove the job
+          { new: true, runValidators: true }
+        ).populate('jobs'); // Populate jobs if you want to return them
+
+        // Handle the case where the user is not found
+        if (!updatedUser) {
+          throw new Error('User not found');
+        }
+
+        // Return the user object and the job details
+        return {
+          user: {
+            _id: updatedUser._id,
+            userName: updatedUser.userName,
+          },
+          job: {
+            _id: job._id,
+            name: job.name,
+            description: job.description,
+            pay: job.pay,
+          },
+        };
+      } catch (error) {
+        console.error('Error removing job:', error);
+        throw new Error(`Failed to remove job: ${error.message}`);
       };
     },
- 
-      // Create the post with the associated user
-      addPost: async (parent, { title, text }, context) => {
-        const post = await Post.create({
-          title,
-          text,
-          user: {
-            userName: "User",
-            pfp: "/defaultpfp.PNG"
-          }
-        });
+
+
+    addPost: async (parent, { title, text }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to create a post');
+      }
+
+      const post = await Post.create({
+        title,
+        text,
+        user: {
+          userName: context.user.userName,
+          pfp: context.user.pfp
+        }
+      });
+
       return post;
-    },
+    }
   },
 };
 
