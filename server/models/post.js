@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-const PostSchema = new mongoose.Schema({
+const postSchema = new Schema({
+  
   title: {
     type: String,
     required: true,
@@ -14,6 +15,14 @@ const PostSchema = new mongoose.Schema({
     ref: 'User', // Ensure this matches your User model name
     required: true,
   },
+    userName: {
+      type: String,
+      required: true,
+    },
+    pfp: {
+      type: String,
+    }
+  }
 });
 
 module.exports = mongoose.model('Post', PostSchema);

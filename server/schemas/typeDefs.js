@@ -3,9 +3,12 @@ const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type User {
     _id: ID
-    userName: String!
-    email: String
+    userName: String
+    pfp: String
     password: String
+    skills: [Srting] 
+    jobs: [Job] 
+    posts: [Post] 
   }
 
   type Job {
@@ -26,6 +29,7 @@ type Auth {
   token: ID
   user: User
 }
+
 
 type JobDetail {
   user: User 
@@ -57,16 +61,21 @@ type RemoveJob {
     post(post: ID!): Post
   }
 
-  # Important for useMutation: We define our Mutation type to inform our entrypoints
 
   type Mutation {
-  addUser(userName: String!, email: String! password: String!): Auth
+  addUser(userName: String!, password: String!): Auth
   addSkill(UserId: ID!, skill: String!): Skill
   removeSkill(UserId: ID!, skill: String!): Skill
   addJobToUser(userId: ID!, jobId: ID!): JobDetail
   removeJobFromUser(userId: ID!, jobId: ID!): RemoveJob
   addPost(title: String!, text: String!): Post
   login(userName: String!, password: String!): Auth # <- Added login mutation here
+  logout: LogoutResponse # Add this line
+  }
+
+type LogoutResponse {
+  success: Boolean
+  message: String
 }
 `;
 

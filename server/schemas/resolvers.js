@@ -57,13 +57,13 @@ const resolvers = {
 
   Mutation: {
     // Add a new user
-    addUser: async (parent, { userName, email, password }) => {
+    addUser: async (parent, { userName, password }) => {
       try {
         const existingUser = await User.findOne({ userName });
         if (existingUser) {
           throw new Error('Username already exists');
         }
-        const newUser = await User.create({ userName, email, password });
+        const newUser = await User.create({ userName, password });
 
         // Sign token after successful user creation
         const token = signToken(newUser);
@@ -232,20 +232,23 @@ const resolvers = {
     },
 
     // Add a post
-    addPost: async (parent, { title, text }, context) => {
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in to create a post');
+      addPost: async (parent, { title, text }, context) => {
+        
+        if (!context.user) {
+          throw new AuthenticationError('You need to be logged in to create a post');
+        }
+        
+        const post = await Post.create({
+          title,
+          text,
+          user: {
+            userName: context.user.userName, 
+            pfp: context.user.pfp
+          }
+        });
+      
+        return post;
       }
-
-      const newPost = await Post.create({
-        title,
-        text,
-        user: context.user._id, // Ensure this references the authenticated user's ID
-      });
-
-      // Fetch and return the new post with the user details
-      return Post.findById(newPost._id).populate('user', 'userName');
-    },
   },
 };
 
