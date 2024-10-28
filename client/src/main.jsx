@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/signup";
 import Profile from "./pages/Profile";
+
 import JobBoard from "./pages/jobBoard";
 import JobDetails from "./pages/JobDetails";
 
