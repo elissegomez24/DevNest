@@ -50,8 +50,6 @@ const JobBoard = () => {
         <button className='sea' type="submit">Search</button>
         <ButtonGroup onFilterChange={handleFilterChange} />
       </form> 
-
-      
       <JobCards jobs={data.Job}/>
     </div>
   );
