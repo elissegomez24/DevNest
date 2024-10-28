@@ -6,9 +6,10 @@ const typeDefs = gql`
     userName: String
     pfp: String
     password: String
-    skills: [Srting] 
-    jobs: [Job] 
-    posts: [Post] 
+
+    skills: [String]
+    jobs: [Job]
+    posts: [Post]
   }
 
   type Job {

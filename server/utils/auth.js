@@ -21,6 +21,7 @@ const authMiddleware = async ({ req }) => {
 
     if (!token) {
         return req;
+
     }
 
     try {
