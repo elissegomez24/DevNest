@@ -38,8 +38,8 @@ const resolvers = {
     Post: async () => {
       try {
         const posts = await Post.find({});
-        console.log(posts);
-        return posts;
+        // console.log(posts);
+        // return posts;
       } catch (error) {
         console.error('Error fetching posts:', error);
         throw new Error('Failed to fetch posts');
@@ -220,25 +220,25 @@ const resolvers = {
         throw new Error(`Failed to remove job: ${error.message}`);
       };
     },
-    
 
-      addPost: async (parent, { title, text }, context) => {
-        
-        if (!context.user) {
-          throw new AuthenticationError('You need to be logged in to create a post');
-        }
-        
-        const post = await Post.create({
-          title,
-          text,
-          user: {
-            userName: context.user.userName, 
-            pfp: context.user.pfp
-          }
-        });
-      
-        return post;
+
+    addPost: async (parent, { title, text }, context) => {
+
+      if (!context.user) {
+        throw new AuthenticationError('You need to be logged in to create a post');
       }
+
+      const post = await Post.create({
+        title,
+        text,
+        user: {
+          userName: context.user.userName,
+          pfp: context.user.pfp
+        }
+      });
+
+      return post;
+    }
   },
 };
 
