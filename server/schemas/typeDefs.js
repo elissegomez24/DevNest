@@ -8,7 +8,7 @@ const typeDefs = gql`
     password: String
     skills: [String]
     jobs: [Job]
-    posts : [Post]
+    posts: [Post]
   }
 
   type Job {
