@@ -2,7 +2,6 @@ import  { useState, useEffect  } from 'react';
 import PostCards from "../components/PostCards"
 import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
-import AuthService from '../utils/auth';
 
 
 'use client'
@@ -37,8 +36,14 @@ const ADD_POST = gql`
 
 
 export default function Home() {
-  const { loading, error, data } = useQuery(GET_POST);
-
+  const { loading, data } = useQuery(GET_POST);
+useEffect(() => {
+  console.log('Query data:', data);
+  if (data && data.Post) {
+    setPosts(data.Post);
+    console.log('Posts state updated:', data.Post);
+  }
+}, [data]);
   
   const [addPostMutation] = useMutation(ADD_POST, {
     refetchQueries: [{ query: GET_POST }] 
@@ -47,10 +52,7 @@ export default function Home() {
   const addPost = async (event) => {
     event.preventDefault();
     
-    if (!AuthService.loggedIn()) {
-      window.location.assign('/SignIn');
-      return;
-    }
+    
   
     const title = event.target.Title.value;
     const text = event.target.Text.value;
@@ -76,11 +78,8 @@ export default function Home() {
       console.error('GraphQL errors:', error?.graphQLErrors);
     }
   };
-  useEffect(() => {
-    if (data && data.Post) { 
-      setPosts(data.Post); 
-    }
-  }, [data]);
+
+ 
   
   return (
     <>
@@ -92,7 +91,6 @@ export default function Home() {
       </div>
       <div className="mx-auto m max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          
         </div>
         <div className="text-center">
           <h1 className="line text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -101,12 +99,8 @@ export default function Home() {
           <p className="mt-6 text-lg leading-8 text-gray-600">
             A job hub for developers like <span className='underline'>you</span> 
           </p>
-          
         </div>
-        
       </div>
-      
-      
       <hr></hr>
       <section className="bg-center mt-24 mb-11 rounded-full bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
     <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
@@ -123,9 +117,6 @@ export default function Home() {
         </div>
     </div>
 </section>
-    
-
-          
     <hr />
     <div>
     </div>
@@ -167,13 +158,7 @@ export default function Home() {
 </div>
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
-  // onClick={() => {
-  //   if (!AuthService.loggedIn()) {
-      
-  //     window.location.assign('/SignIn');
-  //     return;
-  //   }
-  // }}
+
     type="submit"
     className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
@@ -186,11 +171,10 @@ export default function Home() {
       
       {/* posts */}
       {loading && <p>Loading posts...</p>}
-      {error && <p>Error loading posts: {error.message}</p>}
       <section>
-      <PostCards posts={posts}/>
-      </section>
-    </div>
-    </>
+            <PostCards posts={posts}/>
+          </section>
+        </div>
+        </>
   );
 }

@@ -6,7 +6,6 @@ const typeDefs = gql`
     userName: String
     pfp: String
     password: String
-
     skills: [String]
     jobs: [Job]
     posts: [Post]
@@ -40,6 +39,8 @@ type Auth {
 
     Post: [Post]!
     post(post: ID!): Post
+    posts: [Post]!
+
   }
 
 
