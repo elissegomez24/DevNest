@@ -6,7 +6,7 @@ import './jobBoard.css';
 'use client'
 
 const GET_JOBS = gql`
- query Job {
+query Job {
   Job {
     _id
     name
@@ -16,10 +16,8 @@ const GET_JOBS = gql`
 `;
 
 const JobBoard = () => {
-
   const { loading, error, data } = useQuery(GET_JOBS);
 
-  
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
@@ -27,7 +25,6 @@ const JobBoard = () => {
   return (
     <div>
       <h1>Job Board</h1>
-      
       <JobCards jobs={data.Job}/>
     </div>
   );

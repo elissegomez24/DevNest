@@ -69,8 +69,8 @@ export default function Profile({ onLogout }) {
 
   return (
     <div className="pro">
-           <h1>Welcome <span>{userName}</span></h1>
-
+      <h1>Welcome {userName}</h1>
+     
 
       <div className="skill">
         <h2>Add Your Skills</h2>

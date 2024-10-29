@@ -7,17 +7,17 @@ import { gql } from '@apollo/client';
 'use client'
 
 const GET_POST = gql`
-  query {
-    Post {
-      _id
-      title
-      text
-      user {
-        userName
-        pfp
-      }
+query Query {
+  Post {
+    _id
+    text
+    title
+    user {
+      userName
+      pfp
     }
   }
+}
 `;
 
 const ADD_POST = gql`
@@ -37,6 +37,8 @@ const ADD_POST = gql`
 
 export default function Home() {
   const { loading, data } = useQuery(GET_POST);
+
+
 useEffect(() => {
   console.log('Query data:', data);
   if (data && data.Post) {
@@ -79,10 +81,10 @@ useEffect(() => {
     }
   };
 
- 
   
   return (
     <>
+      
     <div className="relative isolate px-6 pt-14 lg:px-8">
       <div
         aria-hidden="true"
@@ -158,7 +160,6 @@ useEffect(() => {
 </div>
 <div className="mt-6 mb-16 flex items-center justify-center">
   <button
-
     type="submit"
     className="rounded-md bg-slate-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
   >
@@ -171,7 +172,7 @@ useEffect(() => {
       
       {/* posts */}
       {loading && <p>Loading posts...</p>}
-      <section>
+          <section>
             <PostCards posts={posts}/>
           </section>
         </div>
