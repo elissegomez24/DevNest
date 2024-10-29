@@ -1,4 +1,5 @@
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@apollo/client';
 import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ONE_JOB } from '../utils/queries';
 import { ADD_POST } from '../utils/mutations';
@@ -80,6 +81,7 @@ const JobDetail = () => {
           </div>
         </div>
 
+      </div>
         {/* Post Submission Form */}
         <div className="flex justify-center items-center mb-10">
           <div className="w-full max-w-md p-5 bg-slate-700 rounded-xl border-2 border-slate-900 mx-auto">
@@ -111,5 +113,6 @@ const JobDetail = () => {
   );
 };
 
+export default JobDetail;
 export default JobDetail;
 

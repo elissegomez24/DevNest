@@ -9,15 +9,10 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/signup";
 import Profile from "./pages/Profile";
-<<<<<<<<< Temporary merge branch 1
-import JobBoard from "./pages/jobBoard";
-import JobDetails from "./pages/JobDetails";
-=========
 // import Jobs from "./pages/Jobs";
 import JobBoard from "./pages/jobBoard";
 import JobDetails from "./pages/JobDetails";
 
->>>>>>>>> Temporary merge branch 2
 
 const client = new ApolloClient({
   uri: "http://localhost:3001/graphql", // Replace with your actual GraphQL API endpoint
