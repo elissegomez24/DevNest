@@ -1,4 +1,3 @@
-
 import JobCards from "../components/JobCards";
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';

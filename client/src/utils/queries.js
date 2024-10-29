@@ -17,17 +17,6 @@ query User {
 }
 `;
 
-export const QUERY_ONE_JOB = gql`
-  query OneJob($jobId: ID!) {
-  OneJob(jobId: $jobId) {
-    _id
-    name
-    description
-    pay
-  }
-}
-`;
-
 export const GET_ALL_USERS = gql`
 query GetAllUsers {
   users {
@@ -71,16 +60,7 @@ query GetAllJobs {
 }
 `;
 
-// export const GET_ALL_POSTS = gql`
-// query GetAllPosts {
-//   posts {
-//     _id
-//     userId
-//     content
-//     createdAt
-//   }
-// }
-// `;
+
 
 export const GET_ALL_SKILLS = gql`
 query GetAllSkills {

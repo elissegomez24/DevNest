@@ -4,7 +4,6 @@ import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 
 
-
 'use client'
 
 const GET_POST = gql`
@@ -47,7 +46,6 @@ useEffect(() => {
     console.log('Posts state updated:', data.Post);
   }
 }, [data]);
-
   
   const [addPostMutation] = useMutation(ADD_POST, {
     refetchQueries: [{ query: GET_POST }] 
@@ -95,7 +93,6 @@ useEffect(() => {
       </div>
       <div className="mx-auto m max-w-2xl py-32 sm:py-48 lg:py-56">
         <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-          
         </div>
         <div className="text-center">
           <h1 className="line text-balance text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
@@ -104,12 +101,8 @@ useEffect(() => {
           <p className="mt-6 text-lg leading-8 text-gray-600">
             A job hub for developers like <span className='underline'>you</span> 
           </p>
-          
         </div>
-        
       </div>
-      
-      
       <hr></hr>
       <section className="bg-center mt-24 mb-11 rounded-full bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
     <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
@@ -126,9 +119,6 @@ useEffect(() => {
         </div>
     </div>
 </section>
-    
-
-          
     <hr />
     <div>
     </div>
