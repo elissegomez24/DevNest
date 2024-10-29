@@ -129,4 +129,4 @@ https://docs.google.com/presentation/d/1GE7r4lNzEkYeq0QxrHo6E11pk60ah0TZEuIf1-WQ
 
 ## License
 
-This project is licensed under the [MIT LICENSE](LICENSE). 
+This project is licensed under the [MIT LICENSE](LICENSE).
