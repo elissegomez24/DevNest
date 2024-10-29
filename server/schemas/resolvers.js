@@ -222,22 +222,20 @@ const resolvers = {
     },
 
 
-    addPost: async (parent, { title, text }, context) => {
-      if (!context.user) {
-        throw new AuthenticationError('You need to be logged in to create a post');
+    addPost: async (parent, { title, text }) => {
+
+        
+        const post = await Post.create({
+          title,
+          text,
+          user: {
+          userName: 'Developer',
+          pfp: 'default.PNG'
+          }
+        });
+      
+        return post;
       }
-
-      const post = await Post.create({
-        title,
-        text,
-        user: {
-          userName: context.user.userName,
-          pfp: context.user.pfp
-        }
-      });
-
-      return post;
-    }
   },
 };
 
