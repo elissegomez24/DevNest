@@ -1,39 +1,15 @@
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { useQuery, useMutation } from '@apollo/client';
 import { QUERY_ONE_JOB } from '../utils/queries';
-import { ADD_POST } from '../utils/mutations';
-import Footer from '../components/Footer';
-import { QUERY_ONE_JOB } from '../utils/queries';
-
 
 const JobDetail = () => {
   const { jobId: paramJobId } = useParams();
   const jobId = paramJobId || ''; 
-<
 
   // Fetch job details
   const { loading, error, data } = useQuery(QUERY_ONE_JOB, {
     variables: { jobId },
   });
-
-  // Add post mutation
-  const [addPost] = useMutation(ADD_POST, {
-    onCompleted: () => setPostContent(''), // Clear input after successful post
-    onError: (error) => console.error('Error adding post:', error), // Log errors
-  });
-
-  // Submit handler for adding a post
-  const handleAddPost = async (event) => {
-    event.preventDefault();
-    if (postContent.trim()) {
-      try {
-        await addPost({ variables: { jobId, content: postContent } });
-      } catch (err) {
-        console.error('Failed to add post:', err);
-      }
-    }
-  };
 
 
   // Handle Apply Now button click
@@ -43,7 +19,7 @@ const JobDetail = () => {
 
   return (
     <>
-      <div className="relative isolate px-6 pt-14 lg:px-8 min-h-screen">
+      <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="mx-auto max-w-7xl py-10 text-center">
           {/* Job Details Heading and Description moved here */}
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-10">
@@ -82,37 +58,8 @@ const JobDetail = () => {
         </div>
 
       </div>
-        {/* Post Submission Form */}
-        <div className="flex justify-center items-center mb-10">
-          <div className="w-full max-w-md p-5 bg-slate-700 rounded-xl border-2 border-slate-900 mx-auto">
-            <form onSubmit={handleAddPost}>
-              <label htmlFor="postContent" className="block text-sm font-medium text-white text-center">
-                Share Your Thoughts:
-              </label>
-              <textarea
-                id="postContent"
-                name="postContent"
-                placeholder="Write your thoughts here..."
-                rows="4"
-                value={postContent}
-                onChange={(e) => setPostContent(e.target.value)}
-                className="block w-full rounded-md py-2 px-3 text-gray-900 focus:ring-indigo-600"
-              />
-              <div className="mt-6 flex justify-center">
-                <button type="submit" className="bg-slate-500 text-white px-3.5 py-2.5 rounded-md">
-                  Post
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-
-      <Footer />
     </>
   );
 };
 
 export default JobDetail;
-export default JobDetail;
-
