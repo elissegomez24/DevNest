@@ -4,20 +4,21 @@ import {  useQuery, useMutation } from '@apollo/client';
 import { gql } from '@apollo/client';
 
 
+
 'use client'
 
 const GET_POST = gql`
-  query {
-    Post {
-      _id
-      title
-      text
-      user {
-        userName
-        pfp
-      }
+query Query {
+  Post {
+    _id
+    text
+    title
+    user {
+      userName
+      pfp
     }
   }
+}
 `;
 
 const ADD_POST = gql`
@@ -37,6 +38,7 @@ const ADD_POST = gql`
 
 export default function Home() {
   const { loading, data } = useQuery(GET_POST);
+
 useEffect(() => {
   console.log('Query data:', data);
   if (data && data.Post) {
@@ -44,6 +46,7 @@ useEffect(() => {
     console.log('Posts state updated:', data.Post);
   }
 }, [data]);
+
   
   const [addPostMutation] = useMutation(ADD_POST, {
     refetchQueries: [{ query: GET_POST }] 
@@ -79,10 +82,11 @@ useEffect(() => {
     }
   };
 
- 
+
   
   return (
     <>
+      
     <div className="relative isolate px-6 pt-14 lg:px-8">
       <div
         aria-hidden="true"
@@ -171,7 +175,7 @@ useEffect(() => {
       
       {/* posts */}
       {loading && <p>Loading posts...</p>}
-      <section>
+
             <PostCards posts={posts}/>
           </section>
         </div>

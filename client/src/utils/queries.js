@@ -4,7 +4,7 @@ export const GET_JOB = gql`
 query User {
   User {
     _id
-    username
+    userName
   }
 }
   query Job {
@@ -70,6 +70,7 @@ query GetAllJobs {
   }
 }
 `;
+
 
 
 export const GET_ALL_SKILLS = gql`

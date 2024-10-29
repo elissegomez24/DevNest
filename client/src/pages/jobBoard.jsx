@@ -1,3 +1,4 @@
+
 import JobCards from "../components/JobCards";
 import { useQuery } from '@apollo/client';
 import { gql } from '@apollo/client';
@@ -6,7 +7,7 @@ import './jobBoard.css';
 'use client'
 
 const GET_JOBS = gql`
- query Job {
+query Job {
   Job {
     _id
     name
@@ -21,13 +22,14 @@ const JobBoard = () => {
 
   
 
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div>
       <h1>Job Board</h1>
-      
+
       <JobCards jobs={data.Job}/>
     </div>
   );

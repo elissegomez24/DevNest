@@ -6,10 +6,12 @@ const JobDetail = () => {
   const { jobId: paramJobId } = useParams();
   const jobId = paramJobId || ''; 
 
+
   // Fetch job details
   const { loading, error, data } = useQuery(QUERY_ONE_JOB, {
     variables: { jobId },
   });
+
 
 
   // Handle Apply Now button click
@@ -20,6 +22,7 @@ const JobDetail = () => {
   return (
     <>
       <div className="relative isolate px-6 pt-14 lg:px-8">
+
         <div className="mx-auto max-w-7xl py-10 text-center">
           {/* Job Details Heading and Description moved here */}
           <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mt-10">

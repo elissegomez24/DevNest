@@ -6,7 +6,6 @@ form {
   display: flex;   /* Align buttons in a row */
   justify-content: center;
   gap: 5%;
-
 }
 
 .filters button, .sea {

@@ -16,6 +16,7 @@ Developer Hire Site is a full-stack web application that allows developers to cr
 - [Contributing](#contributing)
 - [Screenshots](#screenshots)
 - [Deployment](#deployment)
+- [DevNest Presentation](#devnest-presentation)
 - [Collaborators](#collaborators)
 - [License](#license)
 
@@ -101,9 +102,10 @@ The application uses GraphQL for all data interactions.
 
 ## Screenshots
 
-![DevNest/images/DevNest1.png](images/DevNest1.png)
-![DevNest/images/DevNest2.png](images/DevNest2.png)
+![DevNest\images\DevNest1.png](images/DevNest1.png)
+![DevNest\images\DevNest2.png](images/DevNest2.png)
 ![DevNest/images/DevNest3.png](images/DevNest3.png)
+![DevNest/images/DevNest4.png](images/DevNest4.png)
 
 ## Deployment
 
@@ -112,6 +114,11 @@ To deploy the application using Render
 1. **Push to GitHub**
 2. **Deploy on Render**
 3. **Access Application**
+
+- Deployed Render Application: https://devnest-ane4.onrender.com 
+
+## DevNest Presentation 
+https://docs.google.com/presentation/d/1GE7r4lNzEkYeq0QxrHo6E11pk60ah0TZEuIf1-WQqSM/edit#slide=id.p 
 
 ## Collaborators
 
@@ -122,4 +129,4 @@ To deploy the application using Render
 
 ## License
 
-This project is licensed under the [MIT LICENSE](LICENSE).
+This project is licensed under the [MIT LICENSE](LICENSE). 

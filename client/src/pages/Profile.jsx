@@ -40,9 +40,14 @@ export default function Profile({ onLogout }) {
   });
 
   const [addSkill] = useMutation(ADD_SKILL, {
+    refetchQueries: [
+      {
+        query: GET_ONE_USER,
+        variables: { user: userId }
+      }
+    ],
     onCompleted: (data) => {
       console.log("Skill added:", data.addSkill);
-      // Optionally, you can update the user skills in your local state or refetch
     },
     onError: (err) => {
       console.error("Error adding skill:", err);
@@ -70,8 +75,6 @@ export default function Profile({ onLogout }) {
   return (
     <div className="pro">
            <h1>Welcome <span>{userName}</span></h1>
-
-
       <div className="skill">
         <h2>Add Your Skills</h2>
         <form onSubmit={handleSkillSubmit}>
