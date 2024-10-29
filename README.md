@@ -16,7 +16,7 @@ Developer Hire Site is a full-stack web application that allows developers to cr
 - [Contributing](#contributing)
 - [Screenshots](#screenshots)
 - [Deployment](#deployment)
-- [DevNest Presenation](#devnest-presenation)
+- [DevNest Presentation](#devnest-presentation)
 - [Collaborators](#collaborators)
 - [License](#license)
 
@@ -117,7 +117,7 @@ To deploy the application using Render
 
 - Deployed Render Application: https://devnest-ane4.onrender.com 
 
-## DevNest Presenation 
+## DevNest Presentation 
 https://docs.google.com/presentation/d/1GE7r4lNzEkYeq0QxrHo6E11pk60ah0TZEuIf1-WQqSM/edit#slide=id.p 
 
 ## Collaborators
@@ -129,4 +129,4 @@ https://docs.google.com/presentation/d/1GE7r4lNzEkYeq0QxrHo6E11pk60ah0TZEuIf1-WQ
 
 ## License
 
-This project is licensed under the [MIT LICENSE](LICENSE).
+This project is licensed under the [MIT LICENSE](LICENSE). 
